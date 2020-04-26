@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+div.body p,
+div.body dd,
+div.body :not(td) > ul > li,
+div.body :not(td) > ol > li {
+  line-height: 1.5em;
+}
+
+td > ul, td > ol {
+  margin-left: 20px;
+}
+
+.line-block {
+  line-height: 1.5em;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.sphinxsidebar {
+  max-height: 100%;
+  overflow-y: auto;
+  font-family: 'Lato', sans-serif;
+}

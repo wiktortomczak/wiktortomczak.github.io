@@ -1,0 +1,1420 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pl">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Test hipotezy statystycznej &#8212; ths  - dokumentacja</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/graphviz_mathjax.bin.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"displayAlign": "left"})</script>
+    <link rel="index" title="Indeks" href="genindex.html" />
+    <link rel="search" title="Szukaj" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Spis treści</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Test hipotezy statystycznej</a><ul>
+<li><a class="reference internal" href="#najwazniejsze-informacje">Najważniejsze informacje</a><ul>
+<li><a class="reference internal" href="#definicja-funkcjonalna">Definicja funkcjonalna</a></li>
+<li><a class="reference internal" href="#zasada-dzialania">Zasada działania</a></li>
+<li><a class="reference internal" href="#zastosowanie-do-wioskowania">Zastosowanie do wioskowania</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#elementy-i-sposob-uzycia-testu">Elementy i sposób użycia testu</a><ul>
+<li><a class="reference internal" href="#testowana-wielkosc">Testowana wielkość</a></li>
+<li><a class="reference internal" href="#hipoteza">Hipoteza</a></li>
+<li><a class="reference internal" href="#probka">Próbka</a></li>
+<li><a class="reference internal" href="#informacja-wejsciowa">Informacja wejściowa</a></li>
+<li><a class="reference internal" href="#wynik">Wynik</a></li>
+<li><a class="reference internal" href="#wartosc-p">Wartość <span class="math notranslate nohighlight">\(p\)</span></a></li>
+<li><a class="reference internal" href="#poziom-istotnosci-alpha">Poziom istotności <span class="math notranslate nohighlight">\(\alpha\)</span></a><ul>
+<li><a class="reference internal" href="#dobor-alpha">Dobór <span class="math notranslate nohighlight">\(\alpha\)</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#przedzial-ufnosci">Przedział ufności</a></li>
+<li><a class="reference internal" href="#zwiazek-miedzy-przedzialem-ufnosci-a-wartoscia-p">Związek między przedziałem ufności <nobr>a wartością</nobr> <span class="math notranslate nohighlight">\(p\)</span></a></li>
+<li><a class="reference internal" href="#warianty-testu">Warianty testu</a><ul>
+<li><a class="reference internal" href="#dwie-populacje">Dwie populacje</a></li>
+<li><a class="reference internal" href="#test-jednokierunkowy-i-dwukierunkowy">Test jednokierunkowy i dwukierunkowy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#procedura">Procedura</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#matematyczna-realizacja-testu">Matematyczna realizacja testu</a><ul>
+<li><a class="reference internal" href="#istota-obliczenia-wartosci-p">Istota obliczenia wartości <span class="math notranslate nohighlight">\(p\)</span></a></li>
+<li><a class="reference internal" href="#algorytm-obliczania-wartosci-p">Algorytm obliczania wartości <span class="math notranslate nohighlight">\(p\)</span></a></li>
+<li><a class="reference internal" href="#zaleznosci-miedzy-obiektami-matematycznymi">Zależności między obiektami matematycznymi</a></li>
+<li><a class="reference internal" href="#statystyka-testowa">Statystyka testowa</a><ul>
+<li><a class="reference internal" href="#cel">Cel</a></li>
+<li><a class="reference internal" href="#konstrukcja">Konstrukcja</a></li>
+<li><a class="reference internal" href="#wzor">Wzór</a></li>
+<li><a class="reference internal" href="#wyjasnienie-wzoru">Wyjaśnienie wzoru</a></li>
+<li><a class="reference internal" href="#podsumowanie">Podsumowanie</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#oszacowanie-testowanej-wielkosci">Oszacowanie testowanej wielkości</a></li>
+<li><a class="reference internal" href="#wartosc-p-cd">Wartość <span class="math notranslate nohighlight">\(p\)</span>, cd.</a><ul>
+<li><a class="reference internal" href="#definicja">Definicja</a></li>
+<li><a class="reference internal" href="#pwz">Wzór</a></li>
+<li><a class="reference internal" href="#wyprowadzenie-wzoru">Wyprowadzenie wzoru</a></li>
+<li><a class="reference internal" href="#interpretacja">Interpretacja</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#przedzial-ufnosci-cd">Przedział ufności, cd.</a><ul>
+<li><a class="reference internal" href="#id6">Wzór</a></li>
+<li><a class="reference internal" href="#id7">Wyprowadzenie wzoru</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#zwiazek-miedzy-theta-t-s-p-i-przedzialami-ufnosci">Związek między <span class="math notranslate nohighlight">\(\theta\)</span>, <span class="math notranslate nohighlight">\(t_s\)</span>, <span class="math notranslate nohighlight">\(p\)</span> i przedziałami ufności</a></li>
+<li><a class="reference internal" href="#wykaz-symboli">Wykaz symboli</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#przyklady">Przykłady</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="test-hipotezy-statystycznej">
+<h1>Test hipotezy statystycznej<a class="headerlink" href="#test-hipotezy-statystycznej" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<p>Celem tego tekstu jest wyjaśnienie testu hipotezy statystycznej <nobr>w zrozumiały</nobr>
+i jednocześnie wyczerpujący sposób. Tekst składa się <nobr>z trzech</nobr> części, które
+wyjaśniają te same treści na coraz większym poziomie szczegółowości, kolejno</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="6%" />
+<col width="17%" />
+<col width="33%" />
+<col width="44%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&#160;</th>
+<th class="head">poziom</th>
+<th class="head">treść</th>
+<th class="head">daje zrozumienie</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td><a class="reference internal" href="#najwazniejsze-informacje"><span class="std std-ref">Najważniejsze informacje</span></a></td>
+<td><ul class="first last simple">
+<li>definicja funkcjonalna</li>
+<li>podstawowa zasada działania</li>
+<li>zastosowanie</li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li>co test umożliwia</li>
+<li>do czego się go stosuje</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td><a class="reference internal" href="#elementy-i-sposob-uzycia-testu"><span class="std std-ref">Elementy i sposoby użycia</span></a></td>
+<td><ul class="first last simple">
+<li>definicje pojęć (nieformalne)</li>
+<li>informacje wejściowe</li>
+<li>postać wyniku</li>
+<li>warianty testu</li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li>jak posługiwać się testem</li>
+<li>jak sformułować hipotezę</li>
+<li>jaka próbka jest odpowiednia</li>
+<li>jak zinterpretować / skonsumować wynik</li>
+<li>jak przetestować hipotezę dotyczącą dwóch populacji</li>
+<li>kiedy stosować test jednokierunkowy, jakie ma wady i zalety</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td><a class="reference internal" href="#matematyczna-realizacja-testu"><span class="std std-ref">Realizacja matematyczna</span></a></td>
+<td><ul class="first last simple">
+<li>przekształcenia</li>
+<li>obiekty matematyczne</li>
+<li>definicje obiektów</li>
+<li>zależności między obiektami</li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li>jak działa test <nobr>od strony</nobr> matematycznej</li>
+<li>co oznaczają symbole i wartości</li>
+<li>jak wykonać wszystkie obliczenia samemu</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>W części matematycznej, poszczególne pojęcia / obiekty wyjaśnione są
+<nobr>w kolejności</p></nobr>
+<ol class="arabic simple">
+<li>definicja opisowa</li>
+<li>cel / rola</li>
+<li>wzór / przekształcenia</li>
+</ol>
+<p>i <nobr>w miarę</nobr> możliwości, bez odwoływania się pozostałych pojęć / obiektów.</p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="najwazniejsze-informacje">
+<h2>Najważniejsze informacje<a class="headerlink" href="#najwazniejsze-informacje" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<div class="section" id="definicja-funkcjonalna">
+<h3>Definicja funkcjonalna<a class="headerlink" href="#definicja-funkcjonalna" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<p><strong>Test hipotezy statystycznej</strong> to <em>narzędzie do odrzucania hipotez</em>. Pozwala
+odrzucić ogólną <a class="reference internal" href="#hip"><span class="std std-ref">hipotezę</span></a> nt. pewnej populacji na podstawie
+konkretnej <a class="reference internal" href="#pro"><span class="std std-ref">próbki obserwacji</span></a> tej populacji. Hipoteza musi mieć
+charakter statystyczny, tzn. dotyczyć pewnej <a class="reference internal" href="#tw"><span class="std std-ref">statystycznej cechy populacji</span></a>, np. średniej wartości.</p>
+<p>Te podstawowe elementy testu („<a class="reference internal" href="#wej"><span class="std std-ref">informację wejściową</span></a>”) przedstawia
+wykres poniżej:</p>
+<img alt="_images/wykres1.png" src="_images/wykres1.png" />
+<p>Test jest <nobr>w kontekście</nobr> populacji. Hipoteza dotyczy pewnej statystycznej
+cechy tej populacji (szary histogram: rozkład cechy <nobr>w populacji)</nobr> i postuluje
+pewną jej wartość (na niebiesko: postulowana wartość), lub <nobr>w ogólności</nobr> zbiór
+wartości. Znana jest wartość cechy <nobr>w próbce</nobr> populacji (żółty histogram: rozkład
+cechy <nobr>w próbce).</p></nobr>
+</div>
+<div class="section" id="zasada-dzialania">
+<h3>Zasada działania<a class="headerlink" href="#zasada-dzialania" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<p>W najprostszym ujęciu, test hipotezy statystycznej porównuje dwie wielkości.
+Konfrontuje pewną wielkość postulowaną przez hipotezę <nobr>z oszacowaniem</nobr> tej
+wielkości zbudowanym <nobr>z próbki.</nobr> Hipoteza i próbka to dwa niezależne źródła
+informacji na ten sam temat, na temat testowanej wielkości. To pozwala przyjąć
+hipotezę za punkt odniesienia, <a class="reference internal" href="#p"><span class="std std-ref">zmierzyć zgodność próbki <nobr>z hipotezą</span></a></nobr> i
+<a class="reference internal" href="#wynik"><span class="std std-ref">odrzucić hipotezę</span></a>, jeśli pomiar zgodności wskazuje na skrajnie
+małe prawdopodobieństwo próbki.</p>
+<p>Kluczem do porównania próbki <nobr>z hipotezą</nobr> jest <a class="reference internal" href="#osz"><span class="std std-ref">oszacowanie testowanej
+wielkości</span></a> na podstawie próbki. Oszacowanie ma formę rozkładu
+prawdopodobieństwa testowanej wielkości. To właśnie rozkład oszacowania jest
+porównywany <nobr>z hipotezą.</p></nobr>
+<img alt="_images/wykres2.png" id="oszw" src="_images/wykres2.png" />
+<p>Warto podkreślić, że to ten rozkład (żółta krzywa) porównuje się <nobr>z hipotezą,</nobr>
+nie rozkład populacji (szary); oraz że rozkład oszacowania jest zwykle znany,
+dzięki teorii statystycznej, nawet gdy rozkład populacji jest zupełnie inny
+i/lub nieznany.</p>
+</div>
+<div class="section" id="zastosowanie-do-wioskowania">
+<h3>Zastosowanie do wioskowania<a class="headerlink" href="#zastosowanie-do-wioskowania" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<p>Być może zaskakująco, częstym zastosowaniem testu statystycznego jest
+<em>potwierdzanie</em> hipotez, <nobr>a więc</nobr> rzecz pozornie przeciwna. Jak to możliwe?
+Testując hipotezę przeciwną do tej, którą próbujemy potwierdzić, tj. jej
+logiczne zaprzeczenie. Udane odrzucenie hipotezy przeciwnej potwierdza
+hipotezę pierwotną.</p>
+<p><em>Potwierdzić</em> zamiast <em>dowodzi</em> i <em>odrzuca</em> zamiast <em>dowodzi fałszywości</em>
+to świadomy dobór słów. Hipoteza potwierdzona testem statystycznym
+nie jest absolutnie dowiedziona, <nobr>w kategoriach</nobr> rygorystycznego wnioskowania
+logicznego, jest jedynie bardzo „uprawdopodobniona”. To dlatego, ponieważ
+test statystyczny nie dowodzi fałszywości hipotezy przeciwnej, <nobr>w tych</nobr> samych
+kategoriach rygorystycznego wnioskowania logicznego, jedynie pokazuje jej
+nieprawdobobieństwo.</p>
+<p>Na opisane powyżej wnioskowanie można spojrzeć jak na probabilistyczną wersję
+dowodzenia przez sprzeczność:</p>
+<div class="line-block">
+<div class="line"><span class="underline">dane:</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(H\)</span>  - hipoteza potwierdzana</div>
+<div class="line"><span class="math notranslate nohighlight">\(D\)</span>  - próbka</div>
+<div class="line"><br /></div>
+<div class="line"><span class="underline">założenie:</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(\neg H\)</span>  - hipoteza przeciwna (testowana)</div>
+<div class="line"><br /></div>
+<div class="line"><span class="underline">test oblicza:</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(Pr(D|\neg H)\)</span> - prawdopodobieństwo próbki pod hipotezą przeciwną</div>
+<div class="line-block">
+<div class="line">(że populacja jak <nobr>w hipotezie</nobr> przeciwnej wygenerowała próbkę)</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">jeśli <span class="math notranslate nohighlight">\(Pr(D|\neg H)\)</span> - bardzo małe, to</div>
+<div class="line"><span class="underline">wnioskowanie:</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(Pr(D|\neg H)\)</span> bardzo małe,</div>
+<div class="line">więc <span class="math notranslate nohighlight">\(Pr(\neg D|\neg H)\)</span> bardzo duże</div>
+<div class="line">więc prawie <span class="math notranslate nohighlight">\(\neg H \Rightarrow \neg D\)</span> (logiczny odpowiednik pr. warunkowego)</div>
+<div class="line">oraz <span class="math notranslate nohighlight">\(\neg H\)</span> (z założenia)</div>
+<div class="line">więc <span class="math notranslate nohighlight">\(\neg D\)</span> (modus ponens)</div>
+<div class="line">więc sprzeczność z&nbsp;<span class="math notranslate nohighlight">\(D\)</span> (dane)</div>
+<div class="line">więc <span class="math notranslate nohighlight">\(\neg H\)</span> (założenie) jest nieprawdziwe (dowód przez sprzeczność)</div>
+<div class="line">więc <span class="math notranslate nohighlight">\(H\)</span> - hipoteza jest potwierdzona</div>
+</div>
+<p>Za pomocą testu statystycznego można zwykle potwierdzić tylko ogólną, szeroką
+hipotezę (np. jakaś statystyczna wartość jest różna / większa / mniejsza
+od&nbsp;<span class="math notranslate nohighlight">\(0\)</span>). Wąską hipotezę (np. wartość wynosi dokładnie <span class="math notranslate nohighlight">\(x\)</span>) trudno
+potwierdzić, ponieważ wtedy hipoteza, którą należy odrzucić jest szeroka i trudno
+<nobr>o próbkę</nobr> <nobr>z nią</nobr> niezgodną. To jest ograniczenie wnioskowania statystycznego.</p>
+<p>Hipotezę odrzucaną <nobr>w teście</nobr> określa się terminem hipoteza zerowa. „Zerowa”
+podkreśla, że jest to hipoteza niewystąpienia postulowanej wartości / zjawiska,
+że to hipoteza przeciwna <nobr>od tej,</nobr> którą próbujemy potwierdzić. Angielska
+nazwa <em>null hypothesis</em> lepiej oddaje tą ideę.</p>
+<div class="topic">
+<p class="topic-title">Przykład 1. Średni wzrost.</p>
+<p>Pomiar wzrostu <nobr>w grupie</nobr> 50 ludzi sugeruje, że <nobr>w tej</nobr> populacji ludzie mają
+przeciętnie ponad 170 cm wzrostu. Można to potwierdzić, wykonująć test
+statystyczny hipotezy przeciwnej (zerowej), że <nobr>w tej</nobr> populacji ludzie
+mają przeciętnie nie więcej niż 170 cm wzrostu.</p>
+</div>
+<p>W dalszej części tekstu określenie hipoteza oznacza zawsze hipotezę odrzucaną,
+tj. <a class="reference internal" href="#hip"><span class="std std-ref">hipotezę zerową</span></a>. Test statystyczny „widzi” tylko tę hipotezę.</p>
+<p>TODO: ujęcie: Fisher, nie Neyman-Pearson.</p>
+</div>
+</div>
+<div class="section" id="elementy-i-sposob-uzycia-testu">
+<h2>Elementy i sposób użycia testu<a class="headerlink" href="#elementy-i-sposob-uzycia-testu" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<div class="section" id="testowana-wielkosc">
+<span id="tw"></span><h3>Testowana wielkość<a class="headerlink" href="#testowana-wielkosc" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<p><strong>Testowana wielkość</strong> to cecha populacji, <nobr>o której</nobr> dotyczy hipoteza, np.
+„średni wzrost”, „średnia różnica długości snu między grupą 2 <nobr>a grupą</nobr> 1”.</p>
+<p>Z definicji testu hipotezy statystycznej, testowana wielkość musi być
+statystyczną cechą (funkcją parametru-/ów rozkładu) populacji, taką jak
+np. wartość średnia. Również, musi być to wielkość, której oszacowanie
+jest możliwe <nobr>z próbki.</p></nobr>
+</div>
+<div class="section" id="hipoteza">
+<span id="hip"></span><h3>Hipoteza<a class="headerlink" href="#hipoteza" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<p><strong>Hipoteza (zerowa)</strong> postuluje pewien zbiór wartości <a class="reference internal" href="#tw"><span class="std std-ref">testowanej
+wielkości</span></a>. Zazwyczaj jest to konkretna pojedyncza wartość (punktowa),
+lub wszystkie wartości mniejsze/większe niż określona wartość graniczna.</p>
+<p>Hipoteza musi składać się dokładnie <nobr>z tych</nobr> dwóch elementów:</p>
+<ol class="arabic simple">
+<li>Testowana wielkość.<ul>
+<li>np. średni wzrost</li>
+<li>np. średnia różnica długości snu między grupą 2 <nobr>a grupą</nobr> 1</li>
+</ul>
+</li>
+<li>Postulowany zbiór jej wartości.<ul>
+<li>np. 170 cm; lub np. między 165 cm <nobr>a 175</nobr> cm</li>
+<li>np. 1h; lub np. 1h i więcej</li>
+</ul>
+</li>
+</ol>
+<p>Aby test dał statystycznie znaczący wynik, hipoteza musi postulować wartości
+znacząco niezgodne <nobr>z próbką.</nobr> Im większa niezgodność, tym większa szansa na
+odrzucenie hipotezy.</p>
+</div>
+<div class="section" id="probka">
+<span id="pro"></span><h3>Próbka<a class="headerlink" href="#probka" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<p>Próbka jest zbiorem przykładów populacji, którą opisuje hipoteza i testowana
+wielkość. Zwykle próbka ma ograniczony rozmiar.</p>
+<p>Aby test mógł potencjalnie odrzucić hipotezę, próbka musi dostarczać informacji
+na jej temat. W szczególności, wielkości obserwowane <nobr>w próbce</nobr> muszą pozwalać
+na oszacowanie testowanej wielkości.</p>
+<div class="topic">
+<p class="topic-title">Przykład 1. Średni wzrost.</p>
+<div class="line-block">
+<div class="line">hipoteza zerowa: „Średni wzrost <nobr>w populacji</nobr> to 170 cm.”</div>
+<div class="line">próbka: Zbiór 50 wartości, wzrost każdej osoby <nobr>w grupie</nobr> 50 osób.</div>
+</div>
+</div>
+</div>
+<div class="section" id="informacja-wejsciowa">
+<span id="wej"></span><h3>Informacja wejściowa<a class="headerlink" href="#informacja-wejsciowa" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<p>Podsumowując informacje dotąd, podstawowa „informacja wejściowa” dla testu to:</p>
+<ol class="arabic simple">
+<li><a class="reference internal" href="#hip"><span class="std std-ref">hipoteza (zerowa)</span></a> - postuluje określoną wartość (lub zbiór
+wartości) testowanej wielkości</li>
+<li><a class="reference internal" href="#pro"><span class="std std-ref">próbka obserwacji</span></a> - dostarcza oszacowania testowanej wielkości</li>
+</ol>
+<p>Parametrem implicite jest populacja, której dotyczy hipoteza i próbka. Nie
+występuje jawnie, jedynie pośrednio <nobr>w hipotezie</nobr> i teoretycznie <nobr>w wyprowadzeniach</nobr>
+wzorów matematycznych.</p>
+<p>Uzupełniającymi parametrami testu są:</p>
+<ol class="arabic simple" start="3">
+<li>poziom istotności <span class="math notranslate nohighlight">\(\alpha\)</span> (<a class="reference internal" href="#alp"><span class="std std-ref">link</span></a>) - akceptowany poziom ryzyka
+odrzucenia poprawnej hipotezy</li>
+<li><a class="reference internal" href="#kier"><span class="std std-ref">kierunkowość testu</span></a> - możliwy wybór testu jednokierunkowego,
+jeśli hipoteza ma postać <span class="math notranslate nohighlight">\(&gt; x\)</span> lub <span class="math notranslate nohighlight">\(&lt; x\)</span></li>
+</ol>
+<p>Ponadto, wtórnymi parametrami testu są:</p>
+<ol class="arabic simple" start="5">
+<li><a class="reference internal" href="#tw"><span class="std std-ref">testowana wielkość</span></a> / <a class="reference internal" href="#dwie-populacje"><span class="std std-ref">liczba populacji</span></a></li>
+<li><a class="reference internal" href="#ts"><span class="std std-ref">statystyka testowa</span></a></li>
+</ol>
+<p>Powyższe parametry są wtórne, ponieważ wyznacza się je <nobr>w całości</nobr> na podstawie
+pierwszych dwóch parametrów, hipotezy i próbki.</p>
+</div>
+<div class="section" id="wynik">
+<h3>Wynik<a class="headerlink" href="#wynik" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<p>Podstawowym wynikiem testu jest</p>
+<ol class="arabic simple">
+<li><a class="reference internal" href="#p"><span class="std std-ref">Wartość p</span></a>&nbsp;<span class="math notranslate nohighlight">\(\in [0, 1]\)</span> - ilościowa miara zgodności próbki
+<nobr>z hipotezą</li></nobr>
+</ol>
+<p>Zazwyczaj przed wykonaniem testu dodatkowo określa się <span class="math notranslate nohighlight">\(\alpha\)</span> (<a class="reference internal" href="#alp"><span class="std std-ref">link</span></a>)
+- progową wartość <span class="math notranslate nohighlight">\(p\)</span>, poniżej której hipotezę uznaje się za odrzuconą. Przy danym
+<span class="math notranslate nohighlight">\(\alpha\)</span>, dodatkowe wyniki testu to:</p>
+<ol class="arabic simple" start="2">
+<li>Rozstrzygnięcie hipotezy, wynik jakościowy:</li>
+</ol>
+<blockquote>
+<div><div class="line-block">
+<div class="line">odrzucenie hipotezy, gdy <span class="math notranslate nohighlight">\(p \leq \alpha\)</span></div>
+<div class="line">nieodrzucenie hipotezy, gdy <span class="math notranslate nohighlight">\(p &gt; \alpha\)</span></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><a class="reference internal" href="#przedzial-ufnosci"><span class="std std-ref">Przedział ufności</span></a> - oszacowanie zakresu zawierającego testowaną wielkość</li>
+</ol>
+<p>Należy podkreślić, że nieodrzucenie hipotezy nie jest <nobr>w żaden</nobr> sposób równoznaczne
+<nobr>z jej</nobr> potwierdzeniem. Potwierdzenie hipotezy nie jest możliwym wynikiem testu.
+Test jest pod tym względem asymetryczny. Dostarcza tylko przesłanki pozwalające
+hipotezę odrzucić, lecz nie pozwalające nic stwierdzić <nobr>w kierunku</nobr> jej potwierdzenia.</p>
+</div>
+<div class="section" id="wartosc-p">
+<span id="p"></span><h3>Wartość <span class="math notranslate nohighlight">\(p\)</span><a class="headerlink" href="#wartosc-p" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<p><strong>Wartość</strong> p&nbsp;<span class="math notranslate nohighlight">\(\in [0, 1]\)</span> jest ilościową miarą zgodności próbki
+<nobr>z hipotezą.</p></nobr>
+<p>Im mniejsza wartość <span class="math notranslate nohighlight">\(p\)</span>, tym:</p>
+<ul class="simple">
+<li>mniejsza zgodność próbki <nobr>z hipotezą</li></nobr>
+<li>mocniejsza przesłanka ku odrzuceniu hipotezy</li>
+<li>większa istotność statystyczna testu</li>
+</ul>
+<p>Istnieje kilka powszechnie przyjętych progów wartości <span class="math notranslate nohighlight">\(p\)</span>, odpowiednio małych,
+takich, że ich uzyskanie <nobr>w teście</nobr> jest uważane za podstawę do odrzucenia
+hipotezy. Zależnie <nobr>od zastosowania,</nobr> może to być <span class="math notranslate nohighlight">\(p &lt; 0.05\)</span>, <span class="math notranslate nohighlight">\(p &lt; 0.01\)</span>, … .
+Ten próg to parametr testu <span class="math notranslate nohighlight">\(\alpha\)</span> (<a class="reference internal" href="#alp"><span class="std std-ref">link</span></a>).</p>
+<p>Ookreślenie „statystycznie istotny wynik” oznacza, że <nobr>w teście</nobr> statystycznym,
+który dał ten wynik, wartość <span class="math notranslate nohighlight">\(p\)</span> była odpowiednio mała.</p>
+</div>
+<div class="section" id="poziom-istotnosci-alpha">
+<span id="alp"></span><h3>Poziom istotności <span class="math notranslate nohighlight">\(\alpha\)</span><a class="headerlink" href="#poziom-istotnosci-alpha" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<p><strong>Poziom istotności</strong> <span class="math notranslate nohighlight">\(\alpha\)</span> to parametr testu, określający maksymalne
+akceptowane prawdopodobieństwo (ryzyko), że test błędnie odrzuci hipotezę.
+„Błędnie odrzuci” to znaczy odrzuci <nobr>w sytuacji,</nobr> gdy hipoteza jest prawdziwa
+(czego oczywiście nie wiadomo, inaczej test byłby niepotrzebny).</p>
+<p><span class="math notranslate nohighlight">\(\alpha\)</span> jest dobierana przez badacza przed wykonaniem testu i wyznacza statysyczną
+istotność wyniku, jeśli wynik wskazuje na odrzucenie hipotezy.</p>
+<p>Przede wszystkim <span class="math notranslate nohighlight">\(\alpha\)</span> umożliwia właśnie rozstrzygnięcie, czy wynik testu
+wskazuje na odrzucenie hipotezy, tj. wynik jakościowy: „hipoteza jest / nie jest
+odrzucona”.</p>
+<p>Rozstrzyga się to, porównując do <span class="math notranslate nohighlight">\(\alpha\)</span> <a class="reference internal" href="#p"><span class="std std-ref">wartość p</span></a>:</p>
+<ul class="simple">
+<li>hipoteza jest odrzucona gdy <span class="math notranslate nohighlight">\(p \leq \alpha\)</span></li>
+<li>hipoteza nie jest odrzucona gdy <span class="math notranslate nohighlight">\(p &gt; \alpha\)</span></li>
+</ul>
+<p>Ten warunek odrzucenia hipotezy, porównanie <span class="math notranslate nohighlight">\(p\)</span> do <span class="math notranslate nohighlight">\(\alpha\)</span>, spełnia definicję
+<span class="math notranslate nohighlight">\(\alpha\)</span>, tj. gwarantuje, że prawdopodobieństwo odrzucenia błędnej hipotezy jest
+nie większe niż <span class="math notranslate nohighlight">\(\alpha\)</span>. Wynika to z&nbsp;<a class="reference internal" href="#interpretacja"><span class="std std-ref">własności wartości
+p</span></a>.</p>
+<p>W konsekwencji, <span class="math notranslate nohighlight">\(\alpha\)</span> można rozumieć jako próg wartości <span class="math notranslate nohighlight">\(p\)</span>. Należy jednak
+pamiętać, że takie ujęcie to nie definicja, <nobr>a konsekwencja</nobr> właściwej definicji
+<span class="math notranslate nohighlight">\(\alpha\)</span> i własności <span class="math notranslate nohighlight">\(p\)</span>.</p>
+<div class="section" id="dobor-alpha">
+<h4>Dobór <span class="math notranslate nohighlight">\(\alpha\)</span><a class="headerlink" href="#dobor-alpha" title="Stały odnośnik do tego nagłówka">¶</a></h4>
+<p>Dobór parametru <span class="math notranslate nohighlight">\(\alpha\)</span> oznacza pewien kompromis, ponieważ <nobr>w istocie</nobr> <span class="math notranslate nohighlight">\(\alpha\)</span>
+kontroluje ryzyko nie jednego, <nobr>a dwóch</nobr> różnych błędów i ryzyko jednego
+rośnie, gdy ryzyko drugiego maleje:</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="44%" />
+<col width="11%" />
+<col width="44%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">błąd</th>
+<th class="head">prawdopodobieństwo (ryzyko) błędu</th>
+<th class="head"><a class="reference external" href="https://en.wikipedia.org/wiki/Type_I_and_type_II_errors">kanoniczne określenie błędu</a></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>odrzucenie poprawnej hipotezy</td>
+<td><span class="math notranslate nohighlight">\(\alpha\)</span></td>
+<td><div class="first last line-block">
+<div class="line">błąd I rodzaju</div>
+<div class="line"><em>false positive</em></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>nieodrzucenie błędnej hipotezy</td>
+<td><span class="math notranslate nohighlight">\(\beta\)</span></td>
+<td><div class="first last line-block">
+<div class="line">błąd II rodzaju</div>
+<div class="line"><em>false negative</em></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="przedzial-ufnosci">
+<h3>Przedział ufności<a class="headerlink" href="#przedzial-ufnosci" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<p><strong>Przedział ufności</strong> to oszacowanie przedziału, <nobr>w którym</nobr> testowana wielkość
+mieści się <nobr>z określonym</nobr> prawdopodobieństwem; to umiejscowienie zmiennej losowej
+<nobr>w konkretnym</nobr> przedziale. np. Dla danego współczynnika ufności
+<span class="math notranslate nohighlight">\(1 - \alpha = 95\%\)</span>, przedział ufności to konkretny przedział, który
+zawiera testowaną wielkość <nobr>z prawdopobieństwem</nobr> <span class="math notranslate nohighlight">\(95\%\)</span>. <a class="reference internal" href="#ufn"><span class="std std-ref">Wzór</span></a>.</p>
+<p>Im większy współczynnik ufności, tym szerszy przedział, tj. mniej precyzyjne
+oszacowanie.</p>
+</div>
+<div class="section" id="zwiazek-miedzy-przedzialem-ufnosci-a-wartoscia-p">
+<h3>Związek między przedziałem ufności <nobr>a wartością</nobr> <span class="math notranslate nohighlight">\(p\)</span><a class="headerlink" href="#zwiazek-miedzy-przedzialem-ufnosci-a-wartoscia-p" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<p>Przedział ufności i wartość <span class="math notranslate nohighlight">\(p\)</span> są alternatywnymi ujęciami tej samej informacji.
+W szczególności, hipotezę można rozstrzygnąć badając, czy przedział ufności
+zawiera wartość postulowaną hipotezą.</p>
+</div>
+<div class="section" id="warianty-testu">
+<h3>Warianty testu<a class="headerlink" href="#warianty-testu" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<div class="section" id="dwie-populacje">
+<h4>Dwie populacje<a class="headerlink" href="#dwie-populacje" title="Stały odnośnik do tego nagłówka">¶</a></h4>
+<p>Hipoteza może dotyczyć dwóch (w ogólności, dowolnej liczby) populacji. Wtedy
+próbka to łączny zbiór próbek obu populacji, <nobr>a testowana</nobr> wielkość to statystyczna
+cecha (funkcja parametrów rozkładu) połączenia obu populacji. Dokładna postać
+testowanej wielkości zależy <nobr>od tego,</nobr> czy dwie populacje są niezależne, czy
+zależne.</p>
+<p>Możliwe przypadki przedstawia tabela poniżej:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">populacja</th>
+<th class="head">próbka</th>
+<th class="head">testowana wielkość (przykład)</th>
+<th class="head">oszacowanie testowanej wielkości (przykład wzoru)</th>
+<th class="head">Przykład</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1 populacja</td>
+<td>1 próbka</td>
+<td>średnia populacji</td>
+<td><span class="math notranslate nohighlight">\(\bar X\)</span></td>
+<td><strong>1. Średni wzrost</strong></td>
+</tr>
+<tr class="row-odd"><td>2 niezależne populacje</td>
+<td>2 niezależne próbki</td>
+<td>różnica między średnimi obydwu populacji</td>
+<td><span class="math notranslate nohighlight">\(\bar Y - \bar X\)</span></td>
+<td><a class="reference internal" href="#prz"><span class="std std-ref">2. Różnica długości płatków</span></a></td>
+</tr>
+<tr class="row-even"><td>2 zależne populacje</td>
+<td>próbki sparowane <a class="footnote-reference" href="#f2" id="id1">[1]</a></td>
+<td>średnia różnic między parami</td>
+<td><span class="math notranslate nohighlight">\(\frac{1}{n}\displaystyle\sum_{i=1}^n(Y_i - X_i)\)</span></td>
+<td><strong>3. Różnica długości snu</strong></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>(każdej obserwacji <nobr>z populacji</nobr> 1 odpowiada obserwacja <nobr>z populacji</nobr> 2 i na odwrót)</td></tr>
+</tbody>
+</table>
+<p>Należy zwrócić uwagę, że niezależnie <nobr>od liczby</nobr> populacji, testowana wielkość
+jest pojedynczą liczbą. W przypadku dwóch (lub więcej) populacji, testowana
+wielkość jest funkcją połączenia obu (wszystkich) populacji. Liczba populacji
+wpływa tylko na wzór na testowaną wielkość; nie wpływa na żaden inny krok testu.
+Dalsze postępowanie jest takie samo.</p>
+</div>
+<div class="section" id="test-jednokierunkowy-i-dwukierunkowy">
+<span id="kier"></span><h4>Test jednokierunkowy i dwukierunkowy<a class="headerlink" href="#test-jednokierunkowy-i-dwukierunkowy" title="Stały odnośnik do tego nagłówka">¶</a></h4>
+<p>Zależnie <nobr>od kierunkowości</nobr> hipotezy, co zostanie zaraz wyjaśnione, można stosować
+dwa rodzaje testu: test jednokierunkowy lub test dwukierunkowy.</p>
+<p><strong>Test dwukierunkowy</strong> to test uniwersalny, nadający się do wszystkich hipotez.</p>
+<p><strong>Test jednokierunkowy</strong> to test dopasowy do hipotezy, która ma postać - trochę
+upraszczając - „coś jest mniejsze <nobr>od x”</nobr> lub „coś jest większe <nobr>od x”</nobr> (w której
+postulowany zbiór wartości jest dany nierównością).</p>
+<p>Kierunkowość testu określa, <nobr>w którym</nobr> kierunku, względem wartości postulowanej
+hipotezą, znajdują się wartości mogące ją rozstrzygnąć, tj. potencjalnie
+niezgodne <nobr>z hipotezą</nobr> i pozwalające ją odrzucić.</p>
+<ul class="simple">
+<li>Test dwukierunkowy nie czyni założeń co do kierunku. Za niezgodne <nobr>z hipotezą</nobr>
+uznaje wartości zarówno dużo mniejsze jak i dużo większe <nobr>od wartości</nobr>
+postulowanej hipotezą.</li>
+<li>Test jednokierunkowy zakłada określony kierunek. Jest wrażliwy tylko na
+wartości <nobr>w kierunku</nobr> przeciwnym do hipotezy. W kierunku zgodnym <nobr>z hipotezą</nobr>
+nie rozróżnia między wartościami. np. Dla hipotezy średni wzrost <span class="math notranslate nohighlight">\(\mu \leq
+170\)</span>, za niezgodne <nobr>z hipotezą</nobr> uznaje tylko wartości dużo większe od&nbsp;<span class="math notranslate nohighlight">\(170\)</span>. Wszystkie wartości mniejsze od&nbsp;<span class="math notranslate nohighlight">\(170\)</span>, nawet dużo mniejsze, np.
+<span class="math notranslate nohighlight">\(\mu = 150\)</span>, są zgodne <nobr>z hipotezą.</li></nobr>
+</ul>
+<p>Zaletą testu jednokierunkowego jest, że <nobr>w kierunku</nobr> przeciwnym do hipotezy
+pozwala łatwiej odrzucić hipotezę. Wymaga do tego mniejszej niezgodności próbki
+<nobr>z hipotezą</nobr> niż test dwukierunkowy. Innymi słowy, <nobr>w tesćie</nobr> jednokierunkowym jest
+większa niż <nobr>w teście</nobr> dwukierunkowym wrażliwość na niezgodność próbki <nobr>z hipotezą;</nobr>
+zbiór próbek, <nobr>w szczególności</nobr> próbek niewiele niezgodnych <nobr>z hipotezą,</nobr> które
+wystarczą do odrzucenia hipotezy, jest większy. np. Dla hipotezy średni wzrost
+<span class="math notranslate nohighlight">\(\mu \leq 170\)</span>, próbka <nobr>o średnim</nobr> wzroście <span class="math notranslate nohighlight">\(\mu = 180\)</span> może wypaść jako mocno
+niezgodna <nobr>w teście</nobr> jednokierunkowym, <nobr>a tylko</nobr> jako umiarkowanie niezgodna <nobr>w teście</nobr>
+dwukierunkowym.</p>
+<p>Wadą testu jednokierunkowego jest niewrażliwość na skrajne wartości <nobr>w kierunku</nobr>
+zgodnym <nobr>z hipotezą</nobr> oraz dodatkowe, być może nieuzasadnione założenie kierunku.
+Warto podkreślić, że dla poprawności wyników, kierunek musi być założony <em>przed</em>
+wykonaniem testu, zanim próbka jest znana.</p>
+<p>Różnicę między testem dwukierunkowym i jednokierunkowym pokazuje tabela poniżej:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">hipoteza</th>
+<th class="head">test</th>
+<th class="head">testowany zakres</th>
+<th class="head">zgodność <nobr>z hipotezą</th></nobr>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\theta = \theta_0\)</span></td>
+<td>dwukierunkowy</td>
+<td><span class="math notranslate nohighlight">\([-\infty, \infty]\)</span></td>
+<td>TODO</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\theta &lt; \theta_0\)</span></td>
+<td>dwukierunkowy</td>
+<td><span class="math notranslate nohighlight">\([-\infty, \infty]\)</span></td>
+<td>TODO</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\theta &lt; \theta_0\)</span></td>
+<td>jednokierunkowy</td>
+<td><span class="math notranslate nohighlight">\([\theta_0, \infty]\)</span> (zał.)</td>
+<td>TODO</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\theta &gt; \theta_0\)</span></td>
+<td>dwukierunkowy</td>
+<td><span class="math notranslate nohighlight">\([-\infty, \infty]\)</span></td>
+<td>TODO</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\theta &gt; \theta_0\)</span></td>
+<td>jednokierunkowy</td>
+<td><span class="math notranslate nohighlight">\([-\infty, \theta_0]\)</span> (zał.)</td>
+<td>TODO</td>
+</tr>
+</tbody>
+</table>
+<p>Kierunkowość testu wpływa na obliczenie (wzory) <a class="reference internal" href="#pcd"><span class="std std-ref">wartości p</span></a> i
+<a class="reference internal" href="#ufn"><span class="std std-ref">przedziału ufności</span></a>.</p>
+<div class="topic">
+<p class="topic-title">Przykład 1. Średni wzrost.</p>
+<p>Hipoteza „średni wzrost to 170 cm” jest punktowa, można do niej zastosować
+tylki test dwukierunkowy.</p>
+</div>
+</div>
+</div>
+<div class="section" id="procedura">
+<h3>Procedura<a class="headerlink" href="#procedura" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<p>Aby wykonać test hipotezy statystycznej, trzeba:</p>
+<ol class="arabic">
+<li><p class="first">Zdefiniować hipotezę: testowaną wielkość i jej zbiór wartości.</p>
+</li>
+<li><div class="first line-block">
+<div class="line">Przestawić próbkę jako zbiór liczb <span class="math notranslate nohighlight">\(X\)</span> (i <span class="math notranslate nohighlight">\(Y\)</span>, jeśli dwie populacje)</div>
+<div class="line">odpowiadająych testowanej wielkości.</div>
+</div>
+</li>
+<li><p class="first">Wybrać poziom istotności <span class="math notranslate nohighlight">\(\alpha\)</span>.</p>
+</li>
+<li><p class="first">Obliczyć wartość <span class="math notranslate nohighlight">\(p\)</span>, zgodnie z&nbsp;<a class="reference internal" href="#alg"><span class="std std-ref">algorytmem</span></a>.</p>
+</li>
+<li><p class="first">Porównać <span class="math notranslate nohighlight">\(p\)</span> z&nbsp;<span class="math notranslate nohighlight">\(\alpha\)</span> i stwierdzić nie-/odrzucenie hipotezy zerowej.</p>
+</li>
+</ol>
+<div class="topic">
+<p class="topic-title">Przykład 1. Średni wzrost.</p>
+<p>Przed wykonaniem testu określono akceptowane ryzyko odrzucenia prawdziwej
+hipotezy <span class="math notranslate nohighlight">\(\alpha = 0.05\)</span>. Test dał wynik <span class="math notranslate nohighlight">\(p = 0.017 &lt; \alpha\)</span>.
+To pozwoliło odrzucić hipotezę zerową i potwierdzić wniosek zasugerowany
+<nobr>we wstępie.</p></nobr>
+<p>Przy czym, jedyny uprawomocniony wniosek <nobr>z odrzucenia</nobr> hipotezy to „średni
+wzrost <em>jest różny</em> <nobr>od 170</nobr> cm”, nie „średni wzrost <em>jest większy</em> <nobr>od 170</nobr> cm”.
+Jest tak, ponieważ hipoteza zerowa brzmi „średni wzrost to 170 cm” (hipoteza
+dwukierunkowa). Żeby wyciągnąć ten drugi mocniejszy wniosek, należałoby
+przetestować i odrzucić inną hipotezę zerową: „średni wzrost jest nie większy
+<nobr>od 170</nobr> cm” (hipoteza jednokierunkowa). Do tej hipotezy można by zastosować
+test jednokierunkowy.</p>
+</div>
+<p>Patrz też pozostałe <a class="reference internal" href="#prz"><span class="std std-ref">przykłady</span></a>.</p>
+</div>
+</div>
+<div class="section" id="matematyczna-realizacja-testu">
+<h2>Matematyczna realizacja testu<a class="headerlink" href="#matematyczna-realizacja-testu" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Matematycznie, przyrównanie próbki do hipotezy polega na obliczeniu wartości
+<span class="math notranslate nohighlight">\(p\)</span>. Ta część kolejno wyjaśnia elementy tego obliczenia.</p>
+<div class="section" id="istota-obliczenia-wartosci-p">
+<span id="obl"></span><h3>Istota obliczenia wartości <span class="math notranslate nohighlight">\(p\)</span><a class="headerlink" href="#istota-obliczenia-wartosci-p" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<div class="figure" id="id9">
+<img alt="_images/wykres4.png" src="_images/wykres4.png" />
+<p class="caption"><span class="caption-text">Najważniejsze elementy obliczenia wartości <span class="math notranslate nohighlight">\(p\)</span> (test dwukierunkowy).</span></p>
+</div>
+<p>Obliczenie wartości <span class="math notranslate nohighlight">\(p\)</span>, miary zgodności próbki <nobr>z hipotezą,</nobr> polega na</p>
+<ol class="arabic simple">
+<li>Sprowadzeniu próbki i hipotezy do postaci umożliwiającej bezpośrednie
+porównanie, odpowiednio do obrazu próbki i obrazu hipotezy.</li>
+<li>Odniesieniu obrazu próbki do obrazu hipotezy.</li>
+</ol>
+<p>Postacią umożliwiającą bezpośrednie porównanie jest <strong>statystyka testowa</strong> <span class="math notranslate nohighlight">\(T_H\)</span>
+(<a class="reference internal" href="#ts"><span class="std std-ref">link</span></a>) , konstrukcja statystyczna łącząca próbkę i hipotezę, zmienna
+losowa.</p>
+<ul class="simple">
+<li>Obrazem hipotezy jest rozkład <span class="math notranslate nohighlight">\(T_H\)</span> (niebieska krzywa).</li>
+<li>Obrazem próbki jest wartość <span class="math notranslate nohighlight">\(t_{s} = T_{H}(\hat \theta)\)</span> (żółta linia),
+wartość <span class="math notranslate nohighlight">\(T_H\)</span> dla <a class="reference internal" href="#osz"><span class="std std-ref">oszacowania</span></a> <span class="math notranslate nohighlight">\(\hat \theta\)</span> testowanej wielkości,
+wyznaczonego <nobr>z próbki.</li></nobr>
+</ul>
+<p>Odniesienie obrazu próbki do obrazu hipotezy polega na określeniu
+prawdopodobieństwa wartości <span class="math notranslate nohighlight">\(t_s\)</span> <nobr>w rozkładzie</nobr> <span class="math notranslate nohighlight">\(T_H\)</span>.</p>
+<p>Wartość <span class="math notranslate nohighlight">\(p\)</span> można rozumieć jako alternatywny wyraz odległości <span class="math notranslate nohighlight">\(\Delta t\)</span> między
+próbką <nobr>a hipotezą</nobr> (między ich obrazami <span class="math notranslate nohighlight">\(t_s\)</span> i <span class="math notranslate nohighlight">\(t_0\)</span>). Odnosząc <span class="math notranslate nohighlight">\(t_s\)</span> do <span class="math notranslate nohighlight">\(T_H\)</span>,
+<span class="math notranslate nohighlight">\(p\)</span> niewprost mierzy odległość między <span class="math notranslate nohighlight">\(t_s\)</span> a&nbsp;<span class="math notranslate nohighlight">\(t_0\)</span>, ponieważ <span class="math notranslate nohighlight">\(T_H\)</span> zawiera
+<nobr>w sobie</nobr> (koduje) informację o&nbsp;<span class="math notranslate nohighlight">\(t_0\)</span>. Na przykład, jeśli hipoteza postuluje, że
+średnia wartość <span class="math notranslate nohighlight">\(\mu_{\theta} = \theta_{0}\)</span>, środek rozkładu <span class="math notranslate nohighlight">\(T_H\)</span> jest
+w&nbsp;<span class="math notranslate nohighlight">\(t_0 = T_H(\theta_0)\)</span>.</p>
+</div>
+<div class="section" id="algorytm-obliczania-wartosci-p">
+<span id="alg"></span><h3>Algorytm obliczania wartości <span class="math notranslate nohighlight">\(p\)</span><a class="headerlink" href="#algorytm-obliczania-wartosci-p" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<ol class="arabic">
+<li><div class="first line-block">
+<div class="line">Obliczyć <a class="reference internal" href="#osz"><span class="std std-ref">oszacowanie</span></a> <span class="math notranslate nohighlight">\(\hat \theta\)</span> testowanej wielkości oraz</div>
+<div class="line">oszacowanie <span class="math notranslate nohighlight">\(s_{\hat \theta}\)</span> odchylenia standardowego oszacowania <span class="math notranslate nohighlight">\(\hat \theta\)</span>.</div>
+</div>
+</li>
+<li><p class="first">Zdefiniować <a class="reference internal" href="#ts"><span class="std std-ref">statystykę testową</span></a> <span class="math notranslate nohighlight">\(T_H\)</span> (jej wzór).</p>
+<ul class="simple">
+<li>Podstawić do wzoru <span class="math notranslate nohighlight">\(T(\hat \theta\)</span>) wartość testowanej wielkości <nobr>z hipotezy</nobr>
+oraz powyższe oszacowanie <span class="math notranslate nohighlight">\(s_{\hat \theta}\)</span> odchylenia standardowego
+oszacowania <span class="math notranslate nohighlight">\(\hat \theta\)</span>.</li>
+<li>Określić znany rozkład na podstawie własności statystycznych próbki.</li>
+</ul>
+</li>
+<li><p class="first">Obliczyć wartość statystyki testowej dla próbki <span class="math notranslate nohighlight">\(t_s = T_H(\hat \theta)\)</span>.</p>
+</li>
+<li><p class="first">Obliczyć wartość <span class="math notranslate nohighlight">\(p = p(t_s)\)</span>, stosując <a class="reference internal" href="#pcd"><span class="std std-ref">wzór</span></a> na <span class="math notranslate nohighlight">\(p\)</span> właściwy dla
+kierunku testu oraz podstawiając do wzoru rozkład statystyki testowej.</p>
+</li>
+</ol>
+<div class="topic">
+<p class="topic-title">Przykład 1. Średni wzrost.</p>
+<p><span class="math notranslate nohighlight">\(H_0: \theta_0 = 170\)</span></p>
+<ol class="arabic">
+<li><div class="first line-block">
+<div class="line"><span class="math notranslate nohighlight">\(\hat \theta = \bar x = \frac{1}{n}\displaystyle\sum x = 181.94\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\({s_{\hat \theta}}^2 = \frac{s^2}{n} = 25.44\)</span> (wzór w&nbsp;<a class="reference internal" href="#osz"><span class="std std-ref">tabeli</span></a>)</div>
+<div class="line"><span class="math notranslate nohighlight">\(s_{\hat \theta} = 5.04\)</span> (wzór w&nbsp;<a class="reference internal" href="#osz"><span class="std std-ref">tabeli</span></a>)</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math notranslate nohighlight">\(T_H(\hat \theta) = \frac{\hat \theta - \theta_0}{s_{\hat \theta}} = \frac{\hat \theta - 170}{5.04}\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(T_H(\hat \theta) = <nobr>z \sim</nobr> \mathcal{N}(0, 1)\)</span> (rozkład statystyki znany, z&nbsp;<a class="reference internal" href="#osz"><span class="std std-ref">tabeli</span></a>)</div>
+</div>
+</li>
+<li><p class="first"><span class="math notranslate nohighlight">\(t_s = T_H(\hat \theta) = T_H(181.94) = 2.36\)</span></p>
+</li>
+<li><div class="first line-block">
+<div class="line">hipoteza dwukierunkowa <span class="math notranslate nohighlight">\(\Rightarrow\)</span> wzór na wartość <span class="math notranslate nohighlight">\(p\)</span>:</div>
+<div class="line"><span class="math notranslate nohighlight">\(p = p(ts) = 2(1 - \Phi(t_s)) = 2(1 - \Phi(2.36)) = 2(1 - 0.991) = 0.017\)</span></div>
+</div>
+</li>
+</ol>
+</div>
+<p>Patrz też pozostałe <a class="reference internal" href="#prz"><span class="std std-ref">przykłady</span></a>.</p>
+</div>
+<div class="section" id="zaleznosci-miedzy-obiektami-matematycznymi">
+<h3>Zależności między obiektami matematycznymi<a class="headerlink" href="#zaleznosci-miedzy-obiektami-matematycznymi" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<p>Poniższy graf pokazuje zależnosći między obiektami. Do wyznaczenia dowolnego
+obiektu potrzeba wszystkich obiektów bezpośrednio poprzedzających go <nobr>w grafie.</p></nobr>
+<div class="graphviz"><object data="_images/graphviz-59a8b9a68d2902d8ebecd4ea1adf63785cb567ab.svg" type="image/svg+xml" class="graphviz">
+<p class="warning">digraph foo {
+  node [shape=none, fontsize=16];
+  edge [arrowsize=0.7];
+  rankdir=LR;
+
+  { rank = source; próbka; &quot;hipoteza H0&quot;; alpha[label=&quot;$\\alpha$&quot;]; }
+
+  T_H[label=&quot;$T_{H}$&quot;];
+  t_s[label=&quot;$t_s$&quot;];
+  theta_hat[label=&quot;$\\hat \\theta$&quot;];
+
+  { rank = same; p[label=&quot;$p$&quot;]; CI; }
+
+  próbka -&gt; theta_hat;
+  theta_hat -&gt; T_H;
+  &quot;hipoteza H0&quot; -&gt; T_H;
+  T_H -&gt; t_s;
+  theta_hat -&gt; t_s [weight=8];
+  t_s -&gt; p;
+  &quot;hipoteza H0&quot; -&gt; kierunek;
+  kierunek -&gt; p;
+  t_s -&gt; CI;
+  theta_hat -&gt; CI;
+  alpha -&gt; CI;
+  kierunek -&gt; CI;
+  p -&gt; CI [dir=both];
+  p -&gt; &quot;odrzucić H0?&quot;;
+  CI -&gt; &quot;odrzucić H0?&quot;;
+  alpha -&gt; &quot;odrzucić H0?&quot;;
+}</p></object></div>
+<div class="line-block">
+<div class="line">patrz też</div>
+<div class="line"><a class="reference internal" href="#zw"><span class="std std-ref">Związek</span></a> między <span class="math notranslate nohighlight">\(\theta\)</span>, <span class="math notranslate nohighlight">\(t_s\)</span>, <span class="math notranslate nohighlight">\(p\)</span>, CI</div>
+<div class="line"><a class="reference internal" href="#wykaz-symboli"><span class="std std-ref">Wykaz symboli</span></a></div>
+</div>
+</div>
+<div class="section" id="statystyka-testowa">
+<span id="ts"></span><h3>Statystyka testowa<a class="headerlink" href="#statystyka-testowa" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<div class="section" id="cel">
+<h4>Cel<a class="headerlink" href="#cel" title="Stały odnośnik do tego nagłówka">¶</a></h4>
+<p>Celem statystyki testowej jest umożliwić przyrównanie próbki do hipotezy.
+W szczególności celem jest obliczenie prawdopodobieństwa, że populacja
+<nobr>o parametrach</nobr> jak <nobr>w hipotezie</nobr> wygenerowała zaobserwowaną próbkę,
+tj. <a class="reference internal" href="#pcd"><span class="std std-ref">obliczenie wartości p</span></a>.</p>
+</div>
+<div class="section" id="konstrukcja">
+<h4>Konstrukcja<a class="headerlink" href="#konstrukcja" title="Stały odnośnik do tego nagłówka">¶</a></h4>
+<p>Kluczowa idea statystyki testowej <span class="math notranslate nohighlight">\(T\)</span> to:</p>
+<ul class="simple">
+<li>Podsumowanie próbki, zbioru wielu punktów, w&nbsp;<em>pojedynczej liczbie</em> losowej,
+<nobr>o bardzo</nobr> dobrze <em>znanym rozkładzie</em>.</li>
+<li><em>Prawdopodobieństwo</em> próbki pod hipotezą <a class="footnote-reference" href="#f1" id="id2">[2]</a> <em>jako miara zgodności</em> próbki
+<nobr>z hipotezą.</li></nobr>
+</ul>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>prawdopodobieństwo wygenerowania próbki <nobr>z populacji</nobr> <nobr>o parametrach</nobr>
+postulowanych hipotezą</td></tr>
+</tbody>
+</table>
+<p>Formalizując powyższe <nobr>w formie</nobr> warunków konstrukcji <span class="math notranslate nohighlight">\(T\)</span>:</p>
+<ol class="arabic">
+<li><p class="first"><span class="math notranslate nohighlight">\(T\)</span> - liczba losowa - statystyka - odwzorowanie próbki <nobr>w liczbę</p></nobr>
+</li>
+<li><p class="first">Prawdopodobieństwo, że <span class="math notranslate nohighlight">\(T\)</span> przyjmie wartość <span class="math notranslate nohighlight">\(t_s\)</span> jest równe
+prawdopodobieństwu wygenerowana próbki pod hipotezą, tj.</p>
+<p><span class="math notranslate nohighlight">\(Pr(T = t_s) = Pr(\)</span> próbka <span class="math notranslate nohighlight">\(|\)</span> hipoteza <span class="math notranslate nohighlight">\()\)</span>, <span class="math notranslate nohighlight">\(t_s\)</span> - wartość <span class="math notranslate nohighlight">\(T\)</span> dla próbki</p>
+</li>
+<li><p class="first">Rozkład <span class="math notranslate nohighlight">\(T\)</span> jest znany pod hipotezą.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="wzor">
+<h4>Wzór<a class="headerlink" href="#wzor" title="Stały odnośnik do tego nagłówka">¶</a></h4>
+<p>Statystykę testową konstruuje się jako proste przekształcenie
+<a class="reference internal" href="#osz"><span class="std std-ref">oszacowania</span></a> <span class="math notranslate nohighlight">\(\hat \theta\)</span> testowanej wielkości.
+W ogólności</p>
+<p><span class="math notranslate nohighlight">\(t_{s} = T(\hat \theta) = \frac{\hat \theta - \mu_{\theta}}{\sigma_{\theta}}\)</span></p>
+<p>gdzie <span class="math notranslate nohighlight">\(\mu_{\theta}\)</span>, <span class="math notranslate nohighlight">\(\sigma_{\theta}\)</span> - prawdziwe i nieznane parametry populacji,
+która wygenerowała próbkę i której dotyczy hipoteza.</p>
+<p>W ten ogólny szablon wzoru, <nobr>w miejsce</nobr> parametrów populacji podstawia się wartości
+postulowane przez hipotezę, np. <span class="math notranslate nohighlight">\(H_0: \mu_{\theta} = \theta_0\)</span></p>
+<p>Najczęściej do wzoru podstawia się następnie oszacowanie parametru/-ów <nobr>z próbki,</nobr>
+<nobr>w miejsce</nobr> tego nieznanego parametru/-ów populacji, którego hipoteza nie postuluje.
+We wszystkich <a class="reference internal" href="#prz"><span class="std std-ref">przykładach</span></a> hipoteza postuluje tylko średnią
+<span class="math notranslate nohighlight">\(\mu_{\theta} = \theta_0\)</span>. W miejsce ochylenia standardowego <span class="math notranslate nohighlight">\(\sigma_{\theta}\)</span>
+podstawia się wtedy jego oszacowanie <span class="math notranslate nohighlight">\({s_{\hat \theta}}^2\)</span> <nobr>z próbki.</p></nobr>
+<div class="topic">
+<p class="topic-title">Przykład 1. Średni wzrost.</p>
+<div class="line-block">
+<div class="line"><span class="math notranslate nohighlight">\(H_0\)</span>: średni wzrost <span class="math notranslate nohighlight">\(\theta_0 = 170\)</span> cm.</div>
+<div class="line">Podstawia się więc:</div>
+</div>
+<p><span class="math notranslate nohighlight">\(\mu_{\theta} = \theta_0\)</span></p>
+<div class="line-block">
+<div class="line">Odchylenie standardowe <span class="math notranslate nohighlight">\(\sigma_{\theta}\)</span> wzrostu <nobr>w populacji</nobr> jest nieznane i <span class="math notranslate nohighlight">\(H_0\)</span> go nie określa,</div>
+<div class="line">więc przyjmuje się oszacowanie <span class="math notranslate nohighlight">\(s_{\hat \theta}\)</span> <nobr>z próbki:</div></nobr>
+</div>
+<p><span class="math notranslate nohighlight">\(\sigma_{\theta} = s_{\hat \theta}\)</span></p>
+<p>Ostatecznie statystyka testowa ma postać:</p>
+<p><span class="math notranslate nohighlight">\(T_H(\hat \theta) = T(\hat \theta) \biggr\rvert_{H_0}
+= \frac{\hat \theta - \mu_{\theta}}{\sigma_{\hat \theta}} \biggr\rvert_{H_0}
+= \frac{\hat \theta - \theta_0}{s_{\hat \theta}} = \frac{\hat \theta - 170}{s_{\hat \theta}}\)</span></p>
+</div>
+<p>Po konkretnych podstawieniach, wzór daje szukaną statystykę testową <span class="math notranslate nohighlight">\(T_H\)</span>,
+dobraną pod konkretną hipotezę <span class="math notranslate nohighlight">\(H_0\)</span>.</p>
+</div>
+<div class="section" id="wyjasnienie-wzoru">
+<h4>Wyjaśnienie wzoru<a class="headerlink" href="#wyjasnienie-wzoru" title="Stały odnośnik do tego nagłówka">¶</a></h4>
+<p>Istotą <span class="math notranslate nohighlight">\(T_H(\hat \theta) = \frac{\hat \theta - \theta_0}{s_{\hat \theta}}\)</span>
+jest przesunięcie oszacowania <span class="math notranslate nohighlight">\(\hat \theta\)</span> <nobr>z próbki</nobr> <nobr>o parameter</nobr> <span class="math notranslate nohighlight">\(\theta_0\)</span>
+<nobr>z hipotezy</nobr> (licznik). Dla łatwiejszego wyjaśnienia, skalowanie przez
+<span class="math notranslate nohighlight">\(\sigma_{\hat \theta}\)</span> (mianownik) jest pominięte, <nobr>w tym</nobr> punkcie zakłada
+się <span class="math notranslate nohighlight">\(\sigma_{\hat \theta} = 1\)</span>, bez straty ogólności.</p>
+<p>Mowiąc obrazowo, przekształcenie <span class="math notranslate nohighlight">\(T_H(\hat \theta)\)</span> przesuwa rozkład
+<span class="math notranslate nohighlight">\(\hat \theta\)</span> na miejsce <span class="math notranslate nohighlight">\(t_0 = T_H(\theta_{0})\)</span> wskazane hipotezą.</p>
+<img alt="_images/wykres6.png" src="_images/wykres6.png" />
+<p>Statystyka <span class="math notranslate nohighlight">\(T_H\)</span> odpowiada na pytanie „Jakie próbki byłyby obserwowane, gdyby
+populacja miała takie parametry, jak postuluje hipoteza?”.</p>
+<p>Statystyka <span class="math notranslate nohighlight">\(T_H\)</span> wyraża prawdopodobieństwo próbki pod hipotezą <span class="math notranslate nohighlight">\(H_0\)</span>.
+Ściślej, <span class="math notranslate nohighlight">\(T_H\)</span> wyraża prawdopodobieństwo wygenerowania próbki dającej oszacowanie
+<nobr>o wartości</nobr> <span class="math notranslate nohighlight">\(\hat \theta\)</span> <nobr>z populacji,</nobr> której parametry mają wartości jak
+<nobr>w hipotezie</nobr> (np. <span class="math notranslate nohighlight">\(\mu_{\theta} = \theta_{0}\)</span>), <nobr>a nie</nobr> wartości wynikające
+(oszacowane) <nobr>z próbki</nobr> (np. <span class="math notranslate nohighlight">\(\mu_{\theta} = \hat \theta\)</span>).</p>
+<p>Rozumowanie, które stoi za przekształceniem <span class="math notranslate nohighlight">\(T_H(\hat \theta)\)</span> to: „Aby wyznaczyć
+prawdopodobieństwo próbki pod hipotezą, wyjdźmy <nobr>od rozkładu</nobr> jej prawdopodobieństwa
+bez hipotezy. Ten rozkład jest już znany, jest oszacowany <nobr>z próbki.</nobr> Pod hipotezą
+rozkład jest taki sam, za wyjątkiem parametrów zmienionych hipotezą. Jeśli
+hipoteza postuluje np. inną wartość średniej, trzeba tylko przesunąć
+rozkład tak, by średnia znalazła się <nobr>w nowej</nobr> wartości.”</p>
+<p>Wynikiem przekształcenia <span class="math notranslate nohighlight">\(T_H(\hat \theta)\)</span> jest zmienna losowa <span class="math notranslate nohighlight">\(T_H\)</span> <nobr>o takim</nobr>
+samym rozkładzie jak <span class="math notranslate nohighlight">\(\hat \theta\)</span>, tj. jak oszacowanie testowanej wielkości,
+lecz <nobr>o zakresie</nobr> wartości jak <nobr>w hipotezie</nobr> <span class="math notranslate nohighlight">\(H_0\)</span> (np. <nobr>o środku</nobr> w&nbsp;<span class="math notranslate nohighlight">\(\mu_{\theta} =
+\theta_{0}\)</span>).</p>
+<p>W ten sposób <span class="math notranslate nohighlight">\(T_H\)</span> przypisuje największe prawdopodobieństwo tym wartościom
+testowanej wielkości, które są najbliżej jej wartości postulowanej hipotezą -
+wartościom <span class="math notranslate nohighlight">\(T_H(\hat \theta)\)</span> takim, że <span class="math notranslate nohighlight">\(\theta \approx \theta_{0}\)</span>.</p>
+<p>Na powyższe przesunięcie można spojrzeć inaczej, mianowicie że przekształcenie
+<span class="math notranslate nohighlight">\(T_H(\hat \theta)\)</span> zamienia miejscami próbkę i hipotezę, tak by test odnosił próbkę
+do hipotezy, <nobr>a nie</nobr> hipotezę do próbki. To pozwala przypisać prawdopodobieństwo
+zmiennej losowej zależnej <nobr>od próbki</nobr> (jej odwzorowaniu <span class="math notranslate nohighlight">\(t_s\)</span>), <nobr>a nie</nobr> hipotezie.
+Zgodnie <nobr>z obiektywną</nobr> (ang. <em>frequentist</em>) interpretacją prawdopodobieństwa,
+<nobr>o którą</nobr> oparty jest test hipotezy statystycznej, hipoteza nie posiada
+prawdopodobieństwa.</p>
+<p>Niezależnie <nobr>od spojrzenia,</nobr> dzięki zakodowaniu hipotezy wewnątrz wyrażenia
+<span class="math notranslate nohighlight">\(T_H(\hat \theta) = T(\hat \theta) \biggr\rvert_{H_0}\)</span>:</p>
+<ol class="arabic simple">
+<li><span class="math notranslate nohighlight">\(T_H(\hat \theta)\)</span> jest funkcją jednego argumentu - próbki,
+danej <nobr>w postaci</nobr> oszacowania <span class="math notranslate nohighlight">\(\hat \theta\)</span> testowanej wielkosći <nobr>z próbki.</li></nobr>
+<li><span class="math notranslate nohighlight">\(T_H(\hat \theta)\)</span> odnosi różne wartości próbki,
+danej <nobr>w postaci</nobr> oszacowania <span class="math notranslate nohighlight">\(\hat \theta\)</span> testowanej wielkości,
+do rozkładu prawdopodobieństwa tej wielkości pod hipotezą.</li>
+</ol>
+<p>Nasuwa się zastrzeżenie, że rozkład <span class="math notranslate nohighlight">\(T_H\)</span>, <nobr>z którym</nobr> jest porównywana próbka,
+sam zależy <nobr>od próbki;</nobr> <nobr>a więc</nobr> że próbka porównywana jest <nobr>z próbką,</nobr> <nobr>a nie</nobr>
+<nobr>z hipotezą.</nobr> W istocie <span class="math notranslate nohighlight">\(T_H\)</span> koduje tylko część informacji <nobr>z próbki,</nobr> kształt
+rozkładu, np. wariancję. Pozostała część informacji <nobr>z próbki,</nobr> np. średnia
+wartość testowanej wielkości, jest w&nbsp;<span class="math notranslate nohighlight">\(t_s\)</span>, więc umożliwia porównanie próbki
+<nobr>z hipotezą.</p></nobr>
+</div>
+<div class="section" id="podsumowanie">
+<h4>Podsumowanie<a class="headerlink" href="#podsumowanie" title="Stały odnośnik do tego nagłówka">¶</a></h4>
+<p><span class="math notranslate nohighlight">\(T_H\)</span> spełnia <a class="reference internal" href="#konstrukcja"><span class="std std-ref">warunki konstrukcji</span></a> 1. - 3. i pozwala
+na <a class="reference internal" href="#pcd"><span class="std std-ref">obliczenie wartości p</span></a>.</p>
+<ol class="arabic simple">
+<li>Odwzorowuje próbkę <nobr>w liczbę,</nobr> jako funkcja oszacowania testowanej wielkości,
+które odwzorowuje próbkę <nobr>w liczbę.</li></nobr>
+<li>Wyraża prawdopodobieństwo pod hipotezą próbki danej <nobr>w postaci</nobr> <span class="math notranslate nohighlight">\(t_{s} =
+T_H(\hat \theta)\)</span>, zgodnie <nobr>z powyższym</nobr> wyjaśnieniem.</li>
+<li>Rozkład <span class="math notranslate nohighlight">\(T_H\)</span> jest znany pod hipotezą, bo <span class="math notranslate nohighlight">\(T_H\)</span> jest wynikiem przekształcenia
+<span class="math notranslate nohighlight">\(T_H(\hat \theta)\)</span>, <nobr>a rozkład</nobr> <span class="math notranslate nohighlight">\(\hat \theta\)</span> jest znany, zbadany przez
+teorię statystyczną.</li>
+</ol>
+<p>Warto potwórzyć, że zasadnicze cechy statystyki <span class="math notranslate nohighlight">\(T_H\)</span>, te <nobr>w punktach</nobr> 1. i 3.
+oraz jej rozkład (<span class="math notranslate nohighlight">\(\mathcal{N}\)</span>, <span class="math notranslate nohighlight">\(t\)</span>, …), to <nobr>w istocie</nobr> cechy
+oszacowania <span class="math notranslate nohighlight">\(\hat \theta\)</span> testowanej wielkości.</p>
+</div>
+</div>
+<div class="section" id="oszacowanie-testowanej-wielkosci">
+<span id="osz"></span><h3>Oszacowanie testowanej wielkości<a class="headerlink" href="#oszacowanie-testowanej-wielkosci" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<p><strong>Oszacowanie testowanej wielkości</strong> to prawdopodobna wartość tej wielkości
+wyznaczona <nobr>z próbki.</nobr> Oszacowanie jest jedynym źródłem informacji nt. testowanej
+wielkości. Jej prawdziwa wartość nie jest znana, zależy <nobr>od parametrów</nobr> populacji,
+nieznanych. Oszacowanie jest zmienną losową, ma postać rozkładu
+prawdopodobieństwa (<a class="reference internal" href="#oszw"><span class="std std-ref">wykres</span></a>).</p>
+<p>Oszacowanie testowanej wielkości, a&nbsp;w&nbsp;szczególnosći pełna znajomość
+jego rozkładu, jest kluczowe dla testu. Rozkład oszacowania umożliwia zbudowanie
+<a class="reference internal" href="#ts"><span class="std std-ref">statystyki testowej</span></a> i obliczenie prawdopodobieństwa próbki pod
+hipotezą. Określenie rozkładu jest możliwe dzięki znajomości własności
+statystycznych próbki.</p>
+<p>Gdy testowana wielkość <span class="math notranslate nohighlight">\(\theta\)</span> to średnia, to zależnie <nobr>od próbki</nobr> i populacji,
+oszacowanie <span class="math notranslate nohighlight">\(\hat \theta\)</span> często ma pewien klasyczny rozkład i prowadzi
+do jednej <nobr>z klasycznych</nobr> statystyk testowych:</p>
+<table class="docutils footnote" frame="void" id="f4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>rozkład oszacowania <span class="math notranslate nohighlight">\(\hat \theta\)</span></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>oszacowanie <span class="math notranslate nohighlight">\({s_{\hat \sigma}}^2\)</span> wariancji oszacowania <span class="math notranslate nohighlight">\(\hat \theta\)</span></td></tr>
+</tbody>
+</table>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="29%" />
+<col width="21%" />
+<col width="14%" />
+<col width="14%" />
+<col width="21%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">próbka <span class="math notranslate nohighlight">\(\{X_n\}\)</span></th>
+<th class="head">populacja</th>
+<th class="head"><span class="math notranslate nohighlight">\(\hat \theta\)</span> <a class="footnote-reference" href="#f4" id="id3">[3]</a></th>
+<th class="head"><span class="math notranslate nohighlight">\({s_{\hat \sigma}}^2\)</span> <a class="footnote-reference" href="#f5" id="id4">[4]</a></th>
+<th class="head"><div class="first last line-block">
+<div class="line">statystyka testowa</div>
+<div class="line"><span class="math notranslate nohighlight">\(T(\hat \theta) = \frac{\hat \theta - \mu_{\theta}}{s_{\hat \sigma}}\)</span></div>
+</div>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line"><span class="math notranslate nohighlight">\(X_n \sim \mathcal{N}(\mu, \sigma^2)\)</span></div>
+<div class="line">znana wariancja <span class="math notranslate nohighlight">\(\sigma^2\)</span></div>
+</div>
+</td>
+<td>1 populacja</td>
+<td><span class="math notranslate nohighlight">\(\mathcal{N}(\mu, {s_{\hat \sigma}}^2)\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{\sigma^2}{n}\)</span></td>
+<td><span class="math notranslate nohighlight">\(z = \frac{\bar x - \mu_0}{(\sigma/\sqrt{n})} \sim \mathcal{N}(0, 1)\)</span></td>
+</tr>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line"><span class="math notranslate nohighlight">\(X_n \sim \mathcal{N}(\mu, \sigma^2)\)</span></div>
+<div class="line">znana wariancja <span class="math notranslate nohighlight">\(\sigma^2\)</span></div>
+</div>
+</td>
+<td>2 populacje niezależne</td>
+<td><span class="math notranslate nohighlight">\(\mathcal{N}(\mu, {s_{\hat \sigma}}^2)\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{{\sigma_x}^2}{n_x} + \frac{{\sigma_y}^2}{n_y}\)</span></td>
+<td><span class="math notranslate nohighlight">\(z = \frac{\bar x - \mu_0}{\sqrt{\frac{{\sigma_x}^2}{n_x} + \frac{{\sigma_y}^2}{n_y}}} \sim \mathcal{N}(0, 1)\)</span></td>
+</tr>
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line"><span class="math notranslate nohighlight">\(n \geq 30\)</span></div>
+<div class="line">rozkład dowolny</div>
+</div>
+</td>
+<td>1 populacja</td>
+<td><span class="math notranslate nohighlight">\(\mathcal{N}(\mu, {s_{\hat \sigma}}^2)\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{s^2}{n}\)</span></td>
+<td><span class="math notranslate nohighlight">\(z = \frac{\bar x - \mu_0}{(s/\sqrt{n})} \sim \mathcal{N}(0, 1)\)</span></td>
+</tr>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line"><span class="math notranslate nohighlight">\(n \geq 30\)</span></div>
+<div class="line">rozkład dowolny</div>
+</div>
+</td>
+<td>2 populacje niezależne</td>
+<td><span class="math notranslate nohighlight">\(\mathcal{N}(\mu, {s_{\hat \sigma}}^2)\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{{s_x}^2}{n_x} + \frac{{s_y}^2}{n_y}\)</span></td>
+<td><span class="math notranslate nohighlight">\(z = \frac{\bar y - \bar x - d_0}{\sqrt{\frac{{s_x}^2}{n_x} + \frac{{s_y}^2}{n_y}}} \sim \mathcal{N}(0, 1)\)</span></td>
+</tr>
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line"><span class="math notranslate nohighlight">\(n \geq 30\)</span></div>
+<div class="line">rozkład dowolny</div>
+</div>
+</td>
+<td>2 populacje sparowane</td>
+<td><span class="math notranslate nohighlight">\(\mathcal{N}(\mu, {s_{\hat \sigma}}^2)\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{{s_d}^2}{n}\)</span></td>
+<td><span class="math notranslate nohighlight">\(z = \frac{\bar d - d_0}{(s_d/\sqrt{n})} \sim \mathcal{N}(0, 1)\)</span></td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(X_n \sim \mathcal{N}\)</span></td>
+<td>1 populacja</td>
+<td><span class="math notranslate nohighlight">\(t\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{s^2}{n}\)</span></td>
+<td><span class="math notranslate nohighlight">\(t = \frac{\bar x - \mu_0}{(s/\sqrt{n})} \sim t(n-1)\)</span></td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(X_n \sim \mathcal{N}\)</span></td>
+<td>2 populacje niezależne</td>
+<td><span class="math notranslate nohighlight">\(t\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{{s_x}^2}{n_x} + \frac{{s_y}^2}{n_y}\)</span></td>
+<td><span class="math notranslate nohighlight">\(t = \frac{\bar y - \bar x - d_0}{\sqrt{\frac{{s_x}^2}{n_x} + \frac{{s_y}^2}{n_y}}} \sim t(df_{\text{corr}})\)</span></td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(X_n \sim \mathcal{N}\)</span></td>
+<td>2 populacje sparowane</td>
+<td><span class="math notranslate nohighlight">\(t\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{{s_d}^2}{n}\)</span></td>
+<td><span class="math notranslate nohighlight">\(t = \frac{\bar d - d_0}{(s_d/\sqrt{n})} \sim t(n-1)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>gdzie:</p>
+<div class="line-block">
+<div class="line"><span class="math notranslate nohighlight">\(s^2 = {s_x}^2 = \frac{1}{n-1}\displaystyle\sum_{i=1}^n(x_i - \bar x)^2\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\({s_y}^2 = \frac{1}{n-1}\displaystyle\sum_{i=1}^n(y_i - \bar y)^2\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\({s_d}^2 = \frac{1}{n-1}\displaystyle\sum_{i=1}^n(y_i - x_i - \bar d)^2\)</span>, <span class="math notranslate nohighlight">\(\bar d = \frac{1}{n}\displaystyle\sum_{i=1}^n(y_i - x_i)\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(df_{\text{corr}} = \frac{(\frac{{s_x}^2}{n_x} + \frac{{s_y}^2}{n_y})^2}{\frac{(\frac{{s_x}^2}{n_x})^2}{n_x - 1} + \frac{(\frac{{s_y}^2}{n_y})^2}{n_y - 1}}\)</span></div>
+</div>
+<div class="topic">
+<p class="topic-title">Przykład 1. Średni wzrost.</p>
+<ul class="simple">
+<li>rozmiar próbki <span class="math notranslate nohighlight">\(n = 50 \geq 30\)</span></li>
+<li>wariancja populacji <span class="math notranslate nohighlight">\(\sigma^2\)</span> nieznana</li>
+<li>hipoteza dotyczy 1 populacji</li>
+</ul>
+<p>więc (przypadek 3. <nobr>w tabeli):</p></nobr>
+<ul>
+<li><p class="first">statystyka testowa to <span class="math notranslate nohighlight">\(z \sim \mathcal{N}(0, 1)\)</span> - znany rozkład</p>
+</li>
+<li><div class="first line-block">
+<div class="line">oszacowanie wariancji <span class="math notranslate nohighlight">\({s_{\hat \sigma}}^2\)</span> oszacowania <span class="math notranslate nohighlight">\(\hat \theta\)</span>,</div>
+<div class="line">potrzebne do obliczenia statystyki testowej <span class="math notranslate nohighlight">\(z\)</span> ma wzór <span class="math notranslate nohighlight">\({s_{\hat \sigma}}^2 = \frac{s^2}{n}\)</span>, więc</div>
+<div class="line"><br /></div>
+<div class="line"><span class="math notranslate nohighlight">\(s_{\hat \sigma} = \sqrt{\frac{s^2}{n}} = \sqrt{\frac{\frac{1}{n-1}\displaystyle\sum_{i=1}^n(x_i - \bar x)^2}{n}}\)</span>  (wzór na <span class="math notranslate nohighlight">\(s^2\)</span> pod tabelą)</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="wartosc-p-cd">
+<span id="pcd"></span><h3>Wartość <span class="math notranslate nohighlight">\(p\)</span>, cd.<a class="headerlink" href="#wartosc-p-cd" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<div class="section" id="definicja">
+<h4>Definicja<a class="headerlink" href="#definicja" title="Stały odnośnik do tego nagłówka">¶</a></h4>
+<p><a class="reference internal" href="#p"><span class="std std-ref">Wartość p</span></a> jest zdefiniowana jako prawdopodobieństwo uzyskania
+statystyki testowej <span class="math notranslate nohighlight">\(T_H\)</span> conajmniej tak nieprawdopodobnej, jak wartość
+statystyki testowej dla próbki pod hipotezą.</p>
+<p>Geometrycznie, wartość <span class="math notranslate nohighlight">\(p\)</span> to powierzchnia zółtego obszaru na
+<a class="reference internal" href="#obl"><span class="std std-ref">wykresie</span></a> przedstawiającym obliczenie tej wartości.</p>
+</div>
+<div class="section" id="pwz">
+<span id="id5"></span><h4>Wzór<a class="headerlink" href="#pwz" title="Stały odnośnik do tego nagłówka">¶</a></h4>
+<p>Ta definicja prowadzi do wzorów poniżej, zależnie od&nbsp;<a class="reference internal" href="#kier"><span class="std std-ref">kierunku</span></a>
+testu.</p>
+<ul>
+<li><p class="first">Test dwukierunkowy</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+p = p(t_s) &amp;= 1 - 2 F_T(t_{s}) \\
+&amp;= 1 - 2 \Phi(t_{s}),\ \text{jeśli}\  F_T \sim \mathcal{N}(0, 1)
+\end{align}\end{split}\]</div>
+</li>
+<li><p class="first">Test jednokierunkowy <span class="math notranslate nohighlight">\(H_0: \theta &lt; x\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+p = p(t_s) &amp;= 1 - F_T(t_{s}) \\
+&amp;= 1 - \Phi(t_{s}),\ \text{jeśli}\  F_T \sim \mathcal{N}(0, 1)
+\end{align}\end{split}\]</div>
+</li>
+<li><p class="first">Test jednokierunkowy <span class="math notranslate nohighlight">\(H_0: \theta &gt; x\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+p = p(t_s) &amp;= F_T(t_{s}) \\
+&amp;= \Phi(t_{s}),\ \text{jeśli}\  F_T \sim \mathcal{N}(0, 1)
+\end{align}\end{split}\]</div>
+</li>
+</ul>
+<p>gdzie:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><span class="math notranslate nohighlight">\(t_s\)</span> - wartość statystyki testowej <span class="math notranslate nohighlight">\(T_H\)</span> dla próbki</div>
+<div class="line"><span class="math notranslate nohighlight">\(F_T\)</span> - dystrybuanta rozkładu statystki <span class="math notranslate nohighlight">\(T_H\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(\Phi\)</span> - dystrybuanta rozkładu normalnego <span class="math notranslate nohighlight">\(\mathcal{N}(0, 1)\)</span></div>
+</div>
+</div></blockquote>
+<p>Wartość <span class="math notranslate nohighlight">\(p\)</span> jest bezpośrednio obliczana <nobr>z rozkładu</nobr> <span class="math notranslate nohighlight">\(F_T\)</span> <a class="reference internal" href="#ts"><span class="std std-ref">statystyki
+testowej</span></a> <span class="math notranslate nohighlight">\(T_H\)</span>. W większości przypadków, tj. gdy <span class="math notranslate nohighlight">\(T_H\)</span> ma pewien klasyczny
+rozkład, obliczenie <span class="math notranslate nohighlight">\(p\)</span> jest bardzo proste. We wszystkich <a class="reference internal" href="#prz"><span class="std std-ref">przykładach</span></a>
+to trywialne podstawienie <span class="math notranslate nohighlight">\(t_s\)</span> <nobr>od wzoru</nobr> na rozkład <span class="math notranslate nohighlight">\(\mathcal{N}\)</span> lub
+<span class="math notranslate nohighlight">\(t\)</span>.</p>
+</div>
+<div class="section" id="wyprowadzenie-wzoru">
+<h4>Wyprowadzenie wzoru<a class="headerlink" href="#wyprowadzenie-wzoru" title="Stały odnośnik do tego nagłówka">¶</a></h4>
+<p>Wartość <span class="math notranslate nohighlight">\(p\)</span> wyprowadza się <nobr>z rozkładu</nobr> <span class="math notranslate nohighlight">\(F_T\)</span> <a class="reference internal" href="#ts"><span class="std std-ref">statystyki testowej</span></a> <span class="math notranslate nohighlight">\(T_H\)</span>,
+która podaje prawdopodobieństwo próbki pod hipotezą.</p>
+<p>Zgodnie <nobr>z definicją,</nobr> <span class="math notranslate nohighlight">\(p = p(t_s) = Pr(T_H \in \{t: Pr(t) \leq Pr(t_s)\})\)</span>.
+<span class="math notranslate nohighlight">\(\{t: Pr(t) \leq Pr(t_s)\}\)</span> upraszcza się, zależnie <nobr>od kierunku</nobr> testu i
+zakładając rozkład <span class="math notranslate nohighlight">\(F_T\)</span> statystyki testowej symetryczny względem <span class="math notranslate nohighlight">\(t = 0\)</span>, do:</p>
+<ul>
+<li><p class="first">Test dwukierunkowy</p>
+<img alt="_images/wykres51.png" src="_images/wykres51.png" />
+<p><span class="math notranslate nohighlight">\(Pr(t)\)</span> - rośnie <nobr>w zakresie</nobr> <span class="math notranslate nohighlight">\(t \in [-\infty, t_0]\)</span>, maleje <nobr>w zakresie</nobr> <span class="math notranslate nohighlight">\(t \in [t_0, \infty]\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+\{t: Pr(t) \leq Pr(t_s)\} = \{t: |t| \leq |t_s|\} = [-\infty, -t_s] \cup [t_s, \infty] \\
+p = p(t_s) = Pr(T_H \in [-\infty, -t_s] \cup [t_s, \infty]) = F_T(-t_s) + 1 - F_T(t_s) = 1 - 2 F_T(t_s)
+\end{align}\end{split}\]</div>
+</li>
+<li><p class="first">Test jednokierunkowy <span class="math notranslate nohighlight">\(H_0: \theta &lt; x\)</span></p>
+<img alt="_images/wykres52.png" src="_images/wykres52.png" />
+<p><span class="math notranslate nohighlight">\(Pr(t)\)</span> - maleje <nobr>w całym</nobr> zakresie wartości, ograniczonym do <span class="math notranslate nohighlight">\(t \in [t_0, \infty]\)</span>
+przez założenie kierunkowości.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+\{t: Pr(t) \leq Pr(t_s)\} = \{t: t \geq t_s\} \\
+p = p(t_s) = Pr(T_H \geq t_s) = 1 - F_T(t_s)
+\end{align}\end{split}\]</div>
+</li>
+<li><p class="first">Test jednokierunkowy <span class="math notranslate nohighlight">\(H_0: \theta &gt; x\)</span></p>
+<img alt="_images/wykres53.png" src="_images/wykres53.png" />
+<dl class="docutils">
+<dt><span class="math notranslate nohighlight">\(Pr(t)\)</span> - rośnie <nobr>w całym</nobr> zakresie wartości, ograniczonym do <span class="math notranslate nohighlight">\(t \in [-\infty, t_0]\)</span></dt>
+<dd><p class="first last">przez założenie kierunkowości.</p>
+</dd>
+</dl>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+\{t: Pr(t) \leq Pr(t_s)\} = \{t: t \leq t_s\} \\
+p = p(t_s) = Pr(T_H \leq t_s) = F_T(t_s)
+\end{align}\end{split}\]</div>
+</li>
+</ul>
+<p>Warto zwrócić uwagę, że wartość <span class="math notranslate nohighlight">\(p\)</span> i prawdopodobieństwo wartości <span class="math notranslate nohighlight">\(t_s\)</span>
+to dwa różne prawdopodobieństwa, dwóch różnych zmiennych losowych.</p>
+</div>
+<div class="section" id="interpretacja">
+<h4>Interpretacja<a class="headerlink" href="#interpretacja" title="Stały odnośnik do tego nagłówka">¶</a></h4>
+<p>Jeśli hipoteza <span class="math notranslate nohighlight">\(H_0\)</span> jest prawdziwa, <span class="math notranslate nohighlight">\(p\)</span> to odsetek próbek, dla których jest
+spełniony warunek <span class="math notranslate nohighlight">\(p \leq \alpha\)</span>. Przyjmując ten warunek za warunek odrzucenia
+hipotezy <span class="math notranslate nohighlight">\(H_0\)</span>, prawdopodobieństwo odrzucenia hipotezy wynosi <span class="math notranslate nohighlight">\(p\)</span>. Przy
+założeniu, że <span class="math notranslate nohighlight">\(H_0\)</span> jest prawdziwa, odrzucenie jest błędne i <span class="math notranslate nohighlight">\(p\)</span> to
+prawdopodobieństwo błędnego odrzucenia hipotezy.</p>
+</div>
+</div>
+<div class="section" id="przedzial-ufnosci-cd">
+<span id="ufn"></span><h3>Przedział ufności, cd.<a class="headerlink" href="#przedzial-ufnosci-cd" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<div class="section" id="id6">
+<h4>Wzór<a class="headerlink" href="#id6" title="Stały odnośnik do tego nagłówka">¶</a></h4>
+<ul>
+<li><p class="first">Test dwukierunkowy</p>
+<div class="math notranslate nohighlight">
+\[\hat \theta + s_{\hat \theta} F_T(\frac{\alpha}{2}) \leq \theta \leq \hat \theta + s_{\hat \theta} F_T(1 - \frac{\alpha}{2})\]</div>
+</li>
+<li><p class="first">Test jednokierunkowy</p>
+<p>TODO</p>
+</li>
+</ul>
+<p>gdzie:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><span class="math notranslate nohighlight">\(\theta\)</span> - testowana wielkość, której dotyczy przedział</div>
+<div class="line"><span class="math notranslate nohighlight">\(\hat \theta\)</span> - oszacowanie testowanej wielkości</div>
+<div class="line"><span class="math notranslate nohighlight">\({s_{\hat \theta}}^2\)</span> - oszacowanie wariancji rozkładu oszacowania <span class="math notranslate nohighlight">\(\hat \theta\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(F_T\)</span> - dystrybuanta rozkładu statystki <span class="math notranslate nohighlight">\(T_H\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(1 - \alpha\)</span> - współczynnik ufności</div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="id7">
+<h4>Wyprowadzenie wzoru<a class="headerlink" href="#id7" title="Stały odnośnik do tego nagłówka">¶</a></h4>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+Pr(\theta_{\alpha}^{-} \leq \theta \leq \theta_{\alpha}^{+}) = 1 - \alpha  \\
+F_{\theta}(\frac{\alpha}{2}) \leq \theta \leq F_{\theta}(1 - \frac{\alpha}{2})  \\
+\theta(F_T(\frac{\alpha}{2})) \leq \theta \leq \theta(F_T(1 - \frac{\alpha}{2}))  \\
+\mu_{\theta} + \sigma_{\theta} F_T(\frac{\alpha}{2}) \leq \theta \leq \mu_{\theta} + \sigma_{\theta} F_T(1 - \frac{\alpha}{2})
+\end{align}\end{split}\]</div>
+<p>Podstawiając <span class="math notranslate nohighlight">\(\mu_{\theta} = \hat \theta\)</span>, <span class="math notranslate nohighlight">\(\sigma_{\theta} = s_{\hat \theta}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\hat \theta + s_{\hat \theta} F_T(\frac{\alpha}{2}) \leq \theta \leq \hat \theta + s_{\hat \theta} F_T(1 - \frac{\alpha}{2})\]</div>
+</div>
+</div>
+<div class="section" id="zwiazek-miedzy-theta-t-s-p-i-przedzialami-ufnosci">
+<span id="zw"></span><h3>Związek między <span class="math notranslate nohighlight">\(\theta\)</span>, <span class="math notranslate nohighlight">\(t_s\)</span>, <span class="math notranslate nohighlight">\(p\)</span> i przedziałami ufności<a class="headerlink" href="#zwiazek-miedzy-theta-t-s-p-i-przedzialami-ufnosci" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<p>Warto pamiętać, że te <span class="math notranslate nohighlight">\(\hat \theta\)</span>, <span class="math notranslate nohighlight">\(t_s\)</span>, <span class="math notranslate nohighlight">\(p\)</span> <a class="footnote-reference" href="#f3" id="id8">[5]</a> są równoważne, to trzy
+różne miary tej samej wielkości, czy też trzy różne rodzaje współrzędnych tej
+samej jednowymiarowej osi.</p>
+<table class="docutils footnote" frame="void" id="f3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[5]</a></td><td><span class="math notranslate nohighlight">\(p\)</span> <nobr>w zakresie</nobr> danego ogona rozkładu, jeśli hipoteza jest dwukierunkowa</td></tr>
+</tbody>
+</table>
+<p>Przyjmując <span class="math notranslate nohighlight">\(\alpha = 0.05\)</span>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\theta\)</span></td>
+<td><span class="math notranslate nohighlight">\(\theta_{\alpha}^{-}\)</span></td>
+<td><span class="math notranslate nohighlight">\(\theta_0\)</span></td>
+<td><span class="math notranslate nohighlight">\(\hat \theta\)</span></td>
+<td><span class="math notranslate nohighlight">\(\theta_{\alpha}^{+}\)</span></td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(T\)</span></td>
+<td><span class="math notranslate nohighlight">\(T_{\alpha}^{-}\)</span></td>
+<td><span class="math notranslate nohighlight">\(0\)</span></td>
+<td><span class="math notranslate nohighlight">\(t_s\)</span></td>
+<td><span class="math notranslate nohighlight">\(T_{\alpha}^{+}\)</span></td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(p_{&lt;&gt;}\)</span></td>
+<td><span class="math notranslate nohighlight">\(5\%\)</span></td>
+<td><span class="math notranslate nohighlight">\(100\%\)</span></td>
+<td><a class="reference internal" href="#pwz"><span class="std std-ref">wzór</span></a></td>
+<td><span class="math notranslate nohighlight">\(5\%\)</span></td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(p_{&lt;}\)</span></td>
+<td><span class="math notranslate nohighlight">\(-\infty\)</span></td>
+<td><span class="math notranslate nohighlight">\(100\%\)</span></td>
+<td><a class="reference internal" href="#pwz"><span class="std std-ref">wzór</span></a></td>
+<td><span class="math notranslate nohighlight">\(5\%\)</span></td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(p_{&gt;}\)</span></td>
+<td><span class="math notranslate nohighlight">\(5\%\)</span></td>
+<td><span class="math notranslate nohighlight">\(100\%\)</span></td>
+<td><a class="reference internal" href="#pwz"><span class="std std-ref">wzór</span></a></td>
+<td><span class="math notranslate nohighlight">\(\infty\)</span></td>
+</tr>
+<tr class="row-even"><td>TODO</td>
+<td><span class="math notranslate nohighlight">\(2.5\%\)</span></td>
+<td><span class="math notranslate nohighlight">\(50\%\)</span></td>
+<td>&#160;</td>
+<td><span class="math notranslate nohighlight">\(97.5\%\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><span class="math notranslate nohighlight">\(p_{&lt;&gt;}\)</span> - wartość <span class="math notranslate nohighlight">\(p\)</span>, test dwukierunkowy</div>
+<div class="line"><span class="math notranslate nohighlight">\(p_{&lt;}\)</span> - wartość <span class="math notranslate nohighlight">\(p\)</span>, test jednokierunkowy, <span class="math notranslate nohighlight">\(H_0: \theta &lt; x\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(p_{&gt;}\)</span> - wartość <span class="math notranslate nohighlight">\(p\)</span>, test jednokierunkowy, <span class="math notranslate nohighlight">\(H_0: \theta &gt; x\)</span></div>
+</div>
+<div class="line-block">
+<div class="line"><span class="math notranslate nohighlight">\([\theta_{\alpha}^{-}, \theta_{\alpha}^{+}]\)</span> - przedział ufności testowanej wielkości</div>
+<div class="line"><span class="math notranslate nohighlight">\([T_{\alpha}^{-}, T_{\alpha}^{+}]\)</span> - obszar akceptacji statystyki testowej <span class="math notranslate nohighlight">\(T\)</span></div>
+</div>
+<div class="line-block">
+<div class="line"><span class="math notranslate nohighlight">\(\theta \rightarrow T\)</span>: <span class="math notranslate nohighlight">\(\ \ T(\theta) = \frac{\theta - \mu_{\theta}}{\sigma_{\theta}}\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(T \rightarrow \theta\)</span>: <span class="math notranslate nohighlight">\(\ \ \theta(t) = \mu_{\theta} + \sigma_{\theta} t\)</span></div>
+</div>
+</div>
+<div class="section" id="wykaz-symboli">
+<h3>Wykaz symboli<a class="headerlink" href="#wykaz-symboli" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">symbol</th>
+<th class="head">pojęcie</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(H_0\)</span></td>
+<td><a class="reference internal" href="#hip"><span class="std std-ref">hipoteza zerowa</span></a> (odrzucana)</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\theta\)</span></td>
+<td><a class="reference internal" href="#tw"><span class="std std-ref">testowana wielkość</span></a>; dotyczy jej hipoteza</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\hat \theta\)</span></td>
+<td><a class="reference internal" href="#osz"><span class="std std-ref">oszacowanie testowanej wielkości</span></a>, <nobr>z próbki</td></nobr>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(T_H\)</span></td>
+<td><a class="reference internal" href="#ts"><span class="std std-ref">statystyka testowa</span></a></td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(t_s\)</span></td>
+<td><span class="math notranslate nohighlight">\(= T_H(\hat \theta)\)</span>, wartość statystyki testowej dla próbki</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(p\)</span></td>
+<td><a class="reference internal" href="#p"><span class="std std-ref">wartość p</span></a>, ilościowa miara zgodności próbki <nobr>z hipotezą</td></nobr>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\alpha\)</span></td>
+<td><a class="reference internal" href="#alp"><span class="std std-ref">poziom istotności</span></a>, akceptowane ryzyko błędnego odrzucenia hipotezy</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\mu_{\theta}\)</span></td>
+<td>średnia wartość rozkładu testowanej wielkości, parametr populacji</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\theta_0\)</span></td>
+<td>postulowna hipotezą wartość testowanej wielkości</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\({s_{\hat \theta}}^2\)</span></td>
+<td><a class="reference internal" href="#osz"><span class="std std-ref">oszacowanie wariancji</span></a> rozkładu oszacowania <span class="math notranslate nohighlight">\(\hat \theta\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="przyklady">
+<span id="prz"></span><h2>Przykłady<a class="headerlink" href="#przyklady" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<div class="topic">
+<p class="topic-title">Przykład 2. Rożnica długości płatków.</p>
+<p>Hipoteza potwierdzana: Średnia długość płatków <em>setosa</em> jest większa <nobr>od średniej</nobr> długości płatków <em>virginica</em>.</p>
+<p><a class="reference internal" href="#procedura"><span class="std std-ref">Procedura</span></a>:</p>
+<ol class="arabic">
+<li><div class="first line-block">
+<div class="line"><span class="math notranslate nohighlight">\(H_0\)</span>: <span class="math notranslate nohighlight">\(\bar X_{\text{setosa}} \leq \bar X_{\text{virginica}}\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(H_0\)</span>: <span class="math notranslate nohighlight">\(\bar X_{\text{setosa}} - \bar X_{\text{virginica}} \leq 0 = \theta_0 = d_0\)</span></div>
+</div>
+<p>Wielkość testowana: <span class="math notranslate nohighlight">\(\theta = \bar X_{\text{setosa}} - \bar X_{\text{virginica}}\)</span></p>
+</li>
+<li><div class="first line-block">
+<div class="line">Próbka:</div>
+<div class="line"><span class="math notranslate nohighlight">\(\{X_{\text{setosa}}^{(n)}\} = \{...\}\ \)</span>  -  <span class="math notranslate nohighlight">\(\ 50\)</span> obserwacji</div>
+<div class="line"><span class="math notranslate nohighlight">\(\{X_{\text{virginica}}^{(n)}\} = \{...\}\ \)</span>  -  <span class="math notranslate nohighlight">\(\ 50\)</span> obserwacji</div>
+</div>
+</li>
+<li><p class="first"><span class="math notranslate nohighlight">\(\alpha = 0.01\)</span></p>
+</li>
+</ol>
+<ol class="arabic simple" start="4">
+<li>Obliczenie wartości <span class="math notranslate nohighlight">\(p\)</span> w/g <a class="reference internal" href="#alg"><span class="std std-ref">algorytmu</span></a>:</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>rozmiar próbki <span class="math notranslate nohighlight">\(n = 50 \geq 30\)</span></li>
+<li>wariancja populacji <span class="math notranslate nohighlight">\(\sigma^2\)</span> nieznana</li>
+<li>hipoteza dotyczy 2 niezależnych populacji</li>
+</ul>
+<p><span class="math notranslate nohighlight">\(\Rightarrow\ \)</span> przypadek 4. w&nbsp;<a class="reference internal" href="#osz"><span class="std std-ref">tabeli</span></a></p>
+<ol class="arabic">
+<li><div class="first line-block">
+<div class="line"><span class="math notranslate nohighlight">\(\hat \theta = \bar d = \bar x_{\text{setosa}} - \bar x_{\text{virginica}} = 5.01 - 6.59 = -1.58\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\({s_{\hat \theta}}^2 = \frac{{s_{\text{virginica}}}^2}{n_{\text{virginica}}} + \frac{{s_{\text{setosa}}}^2}{n_{\text{setosa}}} = \frac{0.64^2}{50} + \frac{0.35^2}{50} = 0.01\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(s_{\hat \theta} = 0.10\)</span></div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math notranslate nohighlight">\(T_H(\hat \theta) = \frac{\hat \theta - \theta_0}{s_{\hat \theta}} = \frac{\hat \theta}{0.10}\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(T_H(\hat \theta) = z\sim \mathcal{N}(0, 1)\)</span></div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math notranslate nohighlight">\(t_s = T_H(\hat \theta) = T_H(-1.58) = -15.38\)</span></div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">hipoteza kierunkowa <span class="math notranslate nohighlight">\(x &lt; \theta\)</span> <span class="math notranslate nohighlight">\(\Rightarrow\)</span> wzór na wartość <span class="math notranslate nohighlight">\(p\)</span>:</div>
+<div class="line"><span class="math notranslate nohighlight">\(p = p(ts) = 1 - \Phi(t_s) = 1 - \Phi(-15.38) = 1 - 0 = 1\)</span></div>
+</div>
+</li>
+</ol>
+</div></blockquote>
+<ol class="arabic simple" start="5">
+<li><span class="math notranslate nohighlight">\(p = 1 &gt; \alpha = 0.01\)</span> - brak podstaw do odrzucenia hipotezy <span class="math notranslate nohighlight">\(H_0\)</span></li>
+</ol>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      
+      
+      
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/test-hipotezy-statystycznej.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
