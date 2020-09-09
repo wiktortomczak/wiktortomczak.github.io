@@ -1,0 +1,102 @@
+body {
+    margin: 10px;
+}
+
+body > #description {
+    display: none;
+}
+
+header {
+    margin-bottom: .67em;
+}
+
+header h1 {
+    display: inline;
+    margin-right: 10px;
+}
+
+#description {
+    width: 40em;
+    font-size: larger;
+}
+
+#description img {
+    display: block;
+    margin: 10px;
+}
+
+svg#species_graph {
+    width: 600px;
+    height: 600px;
+}
+
+#model {
+    position: relative;
+}
+
+#charts {
+    position: absolute;
+    top: 0;
+    left: 600px;
+}
+
+dfn {
+    font-style: normal;
+    font-weight: bold;
+}
+
+line {
+    stroke: #000;
+}
+
+text {
+    text-anchor: middle;
+}
+
+#species_graph circle {
+    r: 10px;
+    stroke: #000;
+}
+
+.core {
+    color: lightgreen;
+    fill: lightgreen;
+}
+
+.shadow {
+    color: orange;
+    fill: orange;
+}
+
+.background {
+    color: #eee;
+    fill: #eee;
+}
+
+.chart_line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1px;
+}
+
+.chart_vline {
+    fill: none;
+    stroke: #000;
+    stroke-width: 1px;
+}
+
+input[type="number"] {
+    width: 4em;
+    text-align: right;
+    background-color: #eee;
+}
+
+#controls span, #controls input[type="range"] {
+    margin-right: 10px;
+}
+
+ul#sources {
+    list-style-type: none;
+    padding: 0;
+}
+

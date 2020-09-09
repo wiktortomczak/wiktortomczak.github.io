@@ -1,0 +1,178 @@
+<html>
+  <head>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="jain-krishna.gen.js"></script>
+    <link rel="stylesheet" type="text/css" href="jain-krishna.css">
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <section id="description">
+      <p>
+This is a model of autocatalytic sets and their evolution as described in
+[<a href="https://doi.org/10.1103/PhysRevLett.81.5684">1</a>];
+reimplementation and visualization.
+      </p>
+      <h3>1. Model</h3>
+      <h4>1.1. Components</h4>
+      <p>
+The model consists of
+        <ul>
+          <li>A set of <var>s</var> distinct chemical species (molecule types),
+              eventually forming <a href="#autocatalytic_set">autocatalytic sets</a>.
+          <li>Catalytic interactions (relations) between some pairs of species,
+              such that one species catalytically produces the other species,
+              assigned randomly with probability <var>m</var>.
+          <li>A sequence of successive time steps, each with a new particular set
+              of species and catalytic interactions, evolved from previous time
+              steps according to the <a href="#mutations">update rule</a>.
+        </ul>
+The species differ only by their catalytic interactions and are otherwise
+uniform. The interactions are assigned at random every time a species is
+introduced, that is, at model initialization or to replace another species
+due to the <a href="#mutations">update rule</a>. The model state is entirely
+described by <var>s</var>&times;<var>s</var> catalytic interaction matrices,
+one per time step.
+      </p>
+      <h4 id="autocatalytic_set">1.2. Autocatalytic set</h4>
+      <p>
+An <dfn>autocatalytic set</dfn> (ACS) is a set of species in which each species is
+catalytically produced by some other species in the set. For example, a minimal
+ACS is the 2-cycle A&nbsp;&rlarr;&nbsp;B, where A catalyses B and B catalyses A.
+Thus, as a whole, the set of species (re)produces itself (is autocatalytic),
+even though individual species alone do not. 
+      </p>
+      <p>
+An ACS always contains a cycle of species linked via catalytic interactions.
+Depending on their location with respect to the cycle, species are classified as:
+        <ul>
+          <li><dfn>core</dfn> - ACS species in the cycle
+          <li><dfn>shadow</dfn> - ACS species catalyzed transitively by
+            (reachable from) species in the cycle
+          <li><dfn>background</dfn> - non-ACS species, not catalyzed (unreachable)
+        </ul>
+      </p>
+      <h4>1.3. Visualization</h4>
+      <p>
+The model at a given time step is visualized as a graph: species as nodes,
+catalytic interactions as directed links. Numbers in nodes indicate particular
+species, designated 1..<var>s</var>. ACSs are shown by coloring core and shadow
+species with <span class="core">green</span> and <span class="shadow">orange</span>,
+respectively. A set of controls below the graph allows to scroll through all time
+steps. Other model <a href="#properties">properties</a> are shown in separate
+charts.
+      </p>
+      <p>
+        <img src="species_graph.png" />
+In the above example, the graph shows the model at time step 600. The are two
+ACSs: {0 (core), 49 (core), 2 (shadow), 3 (shadow)}, {1 (core), 86 (core), 4 (shadow)}.
+      </p>
+      <h4 id="properties">1.4. Properties</h4>
+      <p>
+In each time step, the catalytic interactions determine a number of descriptive
+properties of the species-interactions system, related primarily to ACSs:
+        <ul>
+          <li>presence of ACSs, their size
+          <li>classification of species into core, shadow, background
+          <li>number of catalytic links
+          <li>&lambda;&#8321; (see [<a href="https://doi.org/10.1103/PhysRevLett.81.5684">1</a>])
+          <li>size of the dominant ACS
+        </ul>
+The ACSs are shown in the species graph for the currently selected time step.
+Other properties are in separate timeseries charts, showing their evolution
+across all time steps.
+      </p>
+      <h4 id="parameters">1.5. Parameters</h4>
+      <p>
+        <ul>
+          <li>number of species <var>s</var>
+          <li>average number <var>m</var> of catalytic interactions between
+             given species and other species; <br/>
+             <var>m</var> = <var>p(s-1)</var>, where <var>p</var>
+             - probability of interaction between given two species
+        </ul>
+      </p>
+      <h4 id="mutations">1.6. Mutations of the least fit species</h4>
+      <p>
+After each time step, exactly one species is replaced by a new species;
+the old species' catalytic interactions with other species are removed
+and the new species' interactions are assigned at random, again.
+      </p>
+      <p>
+The species replaced is the least fit species, one with the lowest
+<a href="#concentration">molecular concentration</a>. 
+      </p>
+      <h4 id="concentration">1.7. Species concentration</h4>
+      <p>
+Relative molecular concentrations of all species are fully determined by the
+structure of catalytic interactions, regardless of their previous concentrations
+(due to previous interactions). The concentrations are computed, but not shown,
+in each time step.
+      </p>
+      <h3>2. Evolution of autocatalytic sets</h3>
+      <p>
+The model demonstrates the emergence and growth of autocatalytic sets,
+from an initial pool of random chemical species without any such set.
+      </p>
+      <h4>2.1. Evolution phases</h4>
+      <p>
+In the course of model evolution, an ACS
+        <ol>
+          <li>inevitably (1) emerges (end of <i>random phase</i>)
+          <li>grows, until it (2) contains all species (<i>growth phase</i>)
+          <li>continues to improve stability and efficiency (<i>organization phase</i>)
+        </ol>
+      </p>
+      <p>
+The above three phases, separated by the phase transition points (1), (2) are
+easily found in the charts:
+        <img src="charts.png" />
+      </p>
+      <h4>2.2. Characteristics</h4>
+      <p>
+        <ul>
+          <li>The appearance and growth of ACSs is inevitable.
+          <li>During the growth phase, the increase in number of catalytic links is exponential.
+          <li>The all-species graph at the end of the growth phase is highly non-random.
+        </ul>
+      </p>
+      <h4>2.3. Explanation</h4>
+      <p>
+The appearance of a minimal ACS is by chance and is, given enough time steps,
+inevitable for any <var>m</var>&nbsp;&gt;&nbsp;0, because it has a finite
+non-zero probability.
+      </p>
+      <p>
+The growth of ACSs to all species is inevitable because as long as
+a smaller-than-all-species ACS exists, the <a href="#mutations">update rule</a>
+replaces a non-ACS species, and the new species can join the ACS with again
+non-zero probability. The replaced species is a non-ACS species because
+in presence of an ACS, the relative concentrations of non-ACS species are orders
+of magnitude lower than those of ACS species, as the latter grow much faster
+(exponentially) in a positive catalytic feedback loop.
+      </p>
+      <p>
+        (see [<a href="https://doi.org/10.1103/PhysRevLett.81.5684">1</a>] for more details)
+      </p>
+      <h3>3. Self-organization and complexity</h3>
+      <p>
+The forming and growth of ACS is an example of self-organizating complexity,
+not prescribed by but emergent from the lower-level model mechanics (the
+<a href="#mutations">update rule</a>). The complexity of an ACS grows
+exponentially, as measured by the number of catalytic interactions (links).
+This is even though the average number of links of a new species is the same
+as was that of the replaced species, initially.
+      </p>
+
+      <h3>References</h3>
+      <p>
+        <ul id="sources">
+          <li>[1] <a href="https://doi.org/10.1103/PhysRevLett.81.5684">Jain, Krishna. Autocatalytic sets and the growth of complexity in an evolutionary model (1998)</a>
+          <li>[2] <a href="https://mitpress.mit.edu/books/artificial-chemistries">Artificial Chemistries</a> p. 312
+        </ul>
+      </p>
+    </section>
+    <div id="JainKrishnaModelView"></div>
+  </body>
+</html>
