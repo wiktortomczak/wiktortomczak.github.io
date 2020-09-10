@@ -18,6 +18,7 @@ header h1 {
 #description {
     width: 40em;
     font-size: larger;
+    margin-bottom: 2em;
 }
 
 #description img {

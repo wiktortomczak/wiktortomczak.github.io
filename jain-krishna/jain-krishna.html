@@ -14,7 +14,7 @@
       <p>
 This is a model of autocatalytic sets and their evolution as described in
 [<a href="https://doi.org/10.1103/PhysRevLett.81.5684">1</a>];
-reimplementation and visualization.
+a reimplementation and visualization.
       </p>
       <h3>1. Model</h3>
       <h4>1.1. Components</h4>
@@ -24,24 +24,37 @@ The model consists of
           <li>A set of <var>s</var> distinct chemical species (molecule types),
               eventually forming <a href="#autocatalytic_set">autocatalytic sets</a>.
           <li>Catalytic interactions (relations) between some pairs of species,
-              such that one species catalytically produces the other species,
-              assigned randomly with probability <var>m</var>.
+              such that one species catalytically produces the other species.
+              The interactions are assigned at random, with probability <var>m</var>,
+              every time a species is introduced, that is, at model initialization
+              or to replace another species due to the <a href="#mutations">update rule</a>.
           <li>A sequence of successive time steps, each with a new particular set
               of species and catalytic interactions, evolved from previous time
               steps according to the <a href="#mutations">update rule</a>.
         </ul>
-The species differ only by their catalytic interactions and are otherwise
-uniform. The interactions are assigned at random every time a species is
-introduced, that is, at model initialization or to replace another species
-due to the <a href="#mutations">update rule</a>. The model state is entirely
-described by <var>s</var>&times;<var>s</var> catalytic interaction matrices,
-one per time step.
+      </p>
+      <p>
+The model's artificial chemistry is a very simplistic one, with the following
+notable idealisations:
+        <ul>
+          <li>The number of species is fixed.
+          <li>Species differ only by their catalytic interactions
+              and are otherwise uniform.
+          <li>Catalytic interactions are uniform, of equal strength.
+          <li>Production (rate) of a species depends only on catalyst
+              (concentration). In particular, chemical reactions and reactants
+              are not modeled, and reactants are assumed always present in
+              abundance.
+          <li>Spontaneous (uncatalyzed) reactions are neglibible.
+        </ul>
+The model state is entirely described by <var>s</var>&times;<var>s</var>
+catalytic interaction matrices, one per time step, with binary {0, 1} values.
       </p>
       <h4 id="autocatalytic_set">1.2. Autocatalytic set</h4>
       <p>
 An <dfn>autocatalytic set</dfn> (ACS) is a set of species in which each species is
 catalytically produced by some other species in the set. For example, a minimal
-ACS is the 2-cycle A&nbsp;&rlarr;&nbsp;B, where A catalyses B and B catalyses A.
+ACS is the 2-cycle A&harr;B, where A catalyses B and B catalyses A.
 Thus, as a whole, the set of species reproduces itself (is autocatalytic),
 even though individual species alone do not. 
       </p>
@@ -109,8 +122,9 @@ The species replaced is the least fit species, one with the lowest
       <p>
 Relative molecular concentrations of all species are fully determined by the
 structure of catalytic interactions, regardless of their previous concentrations
-(due to previous interactions). The concentrations are computed, but not shown,
-in each time step.
+(due to previous interactions). Provided that a time step is long enough,
+the concentrations will converge to a unique attractor configuration. These
+concentrations are computed, but not shown, in each time step.
       </p>
       <h3>2. Evolution of autocatalytic sets</h3>
       <p>
@@ -134,9 +148,11 @@ easily found in the charts:
       <h4>2.2. Characteristics</h4>
       <p>
         <ul>
-          <li>The appearance and growth of ACSs is inevitable.
-          <li>During the growth phase, the increase in number of catalytic links is exponential.
-          <li>The all-species graph at the end of the growth phase is highly non-random.
+          <li>The appearance and growth of ACSs are inevitable.
+          <li>During the random phase, the number of catalytic links is stable.
+          <li>During the growth phase, the increase in number of links is exponential.
+          <li>During the organization phase, the number of links saturates in a steady state.
+          <li>The all-species ACS at the end of the growth phase is highly non-random.
         </ul>
       </p>
       <h4>2.3. Explanation</h4>
@@ -150,7 +166,7 @@ The growth of ACSs to all species is inevitable because as long as
 a smaller-than-all-species ACS exists, the <a href="#mutations">update rule</a>
 replaces a non-ACS species, and the new species can join the ACS with again
 non-zero probability. The replaced species is a non-ACS species because
-in presence of an ACS, the relative concentrations of non-ACS species are orders
+in presence of an ACS, relative concentrations of non-ACS species are orders
 of magnitude lower than those of ACS species, as the latter grow much faster
 (exponentially) in a positive catalytic feedback loop.
       </p>
@@ -161,16 +177,17 @@ of magnitude lower than those of ACS species, as the latter grow much faster
       <p>
 The forming and growth of ACS is an example of self-organizating complexity,
 not prescribed by but emergent from the lower-level model mechanics (the
-<a href="#mutations">update rule</a>). The complexity of an ACS grows
-exponentially, as measured by the number of catalytic interactions (links).
-This is even though the average number of links of a new species is the same
-as was that of the replaced species, initially.
+<a href="#mutations">update rule</a>). The catalytic interaction network evolves
+towards greater complexity, as measured by the number of links, with complexity
+increasing exponentially during the growth phase. This is even though
+the average number of links of a new species is the same as was that of the
+replaced species, initially.
       </p>
 
       <h3>References</h3>
       <p>
         <ul id="sources">
-          <li>[1] <a href="https://doi.org/10.1103/PhysRevLett.81.5684">Jain, Krishna. Autocatalytic sets and the growth of complexity in an evolutionary model (1998)</a>
+          <li>[1] <a href="https://doi.org/10.1103/PhysRevLett.81.5684">Jain, Krishna. Autocatalytic sets and the growth of complexity in an evolutionary model (1998).</a>
           <li>[2] <a href="https://mitpress.mit.edu/books/artificial-chemistries">Artificial Chemistries</a> p. 312
         </ul>
       </p>
