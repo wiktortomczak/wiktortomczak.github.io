@@ -31,11 +31,11 @@ svg#species_graph {
     height: 600px;
 }
 
-#model {
+#browser {
     position: relative;
 }
 
-#charts {
+#plots {
     position: absolute;
     top: 0;
     left: 600px;
@@ -44,10 +44,6 @@ svg#species_graph {
 dfn {
     font-style: normal;
     font-weight: bold;
-}
-
-line {
-    stroke: #000;
 }
 
 text {
@@ -59,36 +55,70 @@ text {
     stroke: #000;
 }
 
-.core {
-    color: lightgreen;
-    fill: lightgreen;
+#species_graph line {
+    stroke: #000;
 }
 
-.shadow {
+.core, .core path {
+    color: lightgreen;
+    fill: lightgreen;
+    stroke: lightgreen;
+}
+
+.periphery, .periphery path {
     color: orange;
     fill: orange;
+    stroke: orange;
 }
 
 .background {
     color: #eee;
     fill: #eee;
+    stroke: #eee;
 }
 
-.chart_line {
-    fill: none;
+path {
+    stroke: black;
+    stroke-width: 1px;
+    /* fill: none; TODO?*/
+}
+
+.plot_vline {
+    /* fill: none; TODO?*/
     stroke: steelblue;
-    stroke-width: 1px;
 }
 
-.chart_vline {
-    fill: none;
-    stroke: #000;
-    stroke-width: 1px;
-}
 
 input[type="number"] {
-    width: 4em;
     text-align: right;
+   -moz-appearance: textfield;
+    margin-right: 5px;
+    padding-right: 2px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+#parameters table {
+    border: none;
+    border-collapse: collapse;
+}
+
+#parameters input[type="number"] {
+    width: 6em;
+}
+
+#parameters input[type="submit"] {
+    margin-top: 10px;
+}
+
+#controls input[type="number"] {
+    width: 4em;
+}
+
+input[readonly] {
     background-color: #eee;
 }
 

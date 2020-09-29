@@ -1,14 +1,14 @@
 <html>
   <head>
-    <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-    <script src="jain-krishna.gen.js"></script>
-    <link rel="stylesheet" type="text/css" href="jain-krishna.css">
-
     <title>Model of autocatalytic sets</title>
     <meta charset="utf-8" />
-  </head>
+<script src="https://cdn.jsdelivr.net/npm/d3@6"></script>
+<script src="https://cdn.jsdelivr.net/npm/react@16.13.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@16.13.1/umd/react-dom.production.min.js"></script>
+<script>
+
+</script>
+<script type="module" src="https://tomczak.xyz/jain-krishna/jain-krishna.mjs"></script><link rel="stylesheet" type="text/css" href="https://tomczak.xyz/jain-krishna/jain-krishna.css"></link>  </head>
   <body>
     <section id="description">
       <p>
@@ -63,7 +63,7 @@ An ACS always contains a cycle of species linked via catalytic interactions.
 Depending on their location with respect to the cycle, species are classified as:
         <ul>
           <li><dfn>core</dfn> - ACS species in the cycle
-          <li><dfn>shadow</dfn> - ACS species catalyzed transitively by
+          <li><dfn>periphery</dfn> - ACS species catalyzed transitively by
             (reachable from) species in the cycle
           <li><dfn>background</dfn> - non-ACS species, not catalyzed (unreachable)
         </ul>
@@ -72,8 +72,8 @@ Depending on their location with respect to the cycle, species are classified as
       <p>
 The model at a given time step is visualized as a graph: species as nodes,
 catalytic interactions as directed links. Numbers in nodes indicate particular
-species, designated 1..<var>s</var>. ACSs are shown by coloring core and shadow
-species with <span class="core">green</span> and <span class="shadow">orange</span>,
+species, designated 1..<var>s</var>. ACSs are shown by coloring core and periphery
+species with <span class="core">green</span> and <span class="periphery">orange</span>,
 respectively. A set of controls below the graph allows to scroll through all time
 steps. Other model <a href="#properties">properties</a> are shown in separate
 charts.
@@ -81,7 +81,8 @@ charts.
       <p>
         <img src="species_graph.png" />
 In the above example, the graph shows the model at time step 600. The are two
-ACSs: {0 (core), 49 (core), 2 (shadow), 3 (shadow)}, {1 (core), 86 (core), 4 (shadow)}.
+ACSs: {0 (core), 49 (core), 2 (periphery), 3 (periphery)}, {1 (core), 86 (core),
+4 (periphery)}.
       </p>
       <h4 id="properties">1.4. Properties</h4>
       <p>
@@ -89,7 +90,7 @@ In each time step, the catalytic interactions determine a number of descriptive
 properties of the species-interactions system, related primarily to ACSs:
         <ul>
           <li>presence of ACSs, their size
-          <li>classification of species into core, shadow, background
+          <li>classification of species into core, periphery, background
           <li>number of catalytic links
           <li>&lambda;&#8321; (see [<a href="https://doi.org/10.1103/PhysRevLett.81.5684">1</a>])
           <li>size of the dominant ACS
@@ -192,6 +193,6 @@ replaced species, initially.
         </ul>
       </p>
     </section>
-    <div id="JainKrishnaModelView"></div>
+    <div id="JainKrishnaModelBrowser"></div>
   </body>
 </html>
