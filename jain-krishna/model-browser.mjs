@@ -23,27 +23,22 @@ export default class JainKrishnaModelBrowser extends React.Component {
     super(props);
     this.state = {
       showsDescription: false,
-      model: null
+      model: null,
+      numStepsPerPlotUpdate: 1000
     };
   }
 
-  get _modelFactory() {
-    return this.props.modelFactory;
-  }
-
-  get _descriptionEl() {
-    return this.props.descriptionEl;
-  }
-
-  get _model() {
-    return this.state.model;
-  }
+  get _modelFactory() { return this.props.modelFactory; } 
+  get _descriptionEl() { return this.props.descriptionEl; }
+  get _model() { return this.state.model; }
+  get _numStepsPerPlotUpdate() { return this.state.numStepsPerPlotUpdate; }
 
   render() {
     return [
       this._renderHeader(),
       React.createElement('main', {id: 'browser'}, [
         this._renderModelGenerator(),
+        this._renderBrowserControls(),
         this._model ? this._renderModel() : null
       ])
     ];
@@ -74,8 +69,20 @@ export default class JainKrishnaModelBrowser extends React.Component {
     });
   }
 
+  _renderBrowserControls() {
+    return React.createElement('form', {
+      id: 'browser_controls',
+      onSubmit: e => e.preventDefault()
+    }, [
+      Forms.renderInput(this, 'numStepsPerPlotUpdate', 'steps per plot update')
+    ]);
+  }
+
   _renderModel() {
-    return React.createElement(Model, {model: this._model});
+    return React.createElement(Model, {
+      model: this._model,
+      numStepsPerPlotUpdate: this._numStepsPerPlotUpdate
+    });
   }
 
   _handleNewModel(model) {
@@ -134,7 +141,7 @@ class ModelGenerator extends React.Component {
         }, {
           variableName: 'catalysisProbability',
           symbolName: 'p',
-          description: 'probabilty of catalytic interactions between any given pair of species',
+          description: 'probabilty of catalytic interactions',
           type: 'float'
         }, {
           variableName: 'numSteps',
@@ -188,19 +195,6 @@ class ModelGenerator extends React.Component {
     ]);
   }
 
-  _renderInput(variableName, symbolName, description, inputToValue = parseInt) {
-    return React.createElement('div', null, [
-      React.createElement('var', null, symbolName),
-      ' = ',
-      React.createElement('input', {
-        value: this['_' + variableName] || '',
-        type: 'number',
-        onChange: e => this.setState({[variableName]: inputToValue(e.target.value)})
-      }),
-      ' ', description
-    ]);
-  }
-
   _generateModel() {
     if (this._modelFactory.activeRequest)
       this._modelFactory.activeRequest.cancel();
@@ -226,13 +220,9 @@ class Model extends React.Component {
     };
   }
   
-  get _model() {
-    return this.props.model;
-  }
-
-  get _stepId() {
-    return this.state.stepId;
-  }
+  get _model() { return this.props.model; }
+  get _numStepsPerPlotUpdate() { return this.props.numStepsPerPlotUpdate; }
+  get _stepId() { return this.state.stepId; }
 
   componentDidMount() {
     this._setUpModel();
@@ -245,8 +235,8 @@ class Model extends React.Component {
   }
 
   render() {
-    if (this._model.numSteps) {
-      return [
+    return React.createElement('section', {id: 'model'}, (
+      this._model.numSteps ? [
         React.createElement(SpeciesGraph, {
           model: this._model, stepId: this._stepId}),
         React.createElement(ModelControls, {
@@ -255,10 +245,8 @@ class Model extends React.Component {
           onStepIdChange: stepId => this._goToStep(stepId)
         }),
         this._renderPlots()
-      ];
-    } else {
-      return 'Loading simulation results...';  // TODO: button margin.
-    }
+      ] : 'Loading simulation results...'
+    ));
   }
 
   _renderPlots() {
@@ -312,7 +300,9 @@ class Model extends React.Component {
 
   _createPlot({lines, yLabel, yEndMin}) {
     return React.createElement(ModelPlot, {
-      model: this._model, lines, yLabel, yEndMin, vLine: this._stepId});
+      model: this._model, lines, yLabel, yEndMin,
+      numStepsPerUpdate: this._numStepsPerPlotUpdate, vLine: this._stepId
+    });
   }
 }
 
@@ -322,13 +312,15 @@ class ModelPlot extends React.Component {
   constructor(props) {
     super(props);
     this._plot = null;
-    this._stepId = 0;
+    this._numStepsPlotted = 0;
+    this._numStepsNextPlotUpdate = 0;
   }
 
   get _model() { return this.props.model; }
   get _lines() { return this.props.lines; }
   get _yLabel() { return this.props.yLabel; }
   get _yEndMin() { return this.props.yEndMin; }
+  get _numStepsPerUpdate() { return this.props.numStepsPerUpdate; }
 
   render() {
     return React.createElement(
@@ -349,18 +341,25 @@ class ModelPlot extends React.Component {
   }
 
   _updatePlot() {
-    const linesData = this._lines.map(() => ({x: [], y: []}));
-    for (; this._stepId < this._model.numSteps; ++this._stepId) {
-      const step = this._model.step(this._stepId);
-      d3.zip(this._lines, linesData).forEach(([{stepValue}, lineData]) => {
-        lineData.x.push(this._stepId);
-        lineData.y.push(stepValue(step));
+    if (this._model.numSteps >= this._numStepsNextPlotUpdate) {
+      const linesData = this._lines.map(() => ({x: [], y: []}));
+      for (; this._numStepsPlotted < this._model.numSteps;
+           ++this._numStepsPlotted) {
+        const step = this._model.step(this._numStepsPlotted);
+        d3.zip(this._lines, linesData).forEach(([{stepValue}, lineData]) => {
+          lineData.x.push(this._numStepsPlotted);
+          lineData.y.push(stepValue(step));
+        });
+      }
+      d3.zip(this._plot.lines, linesData).forEach(([line, lineData]) => {
+        line.addData(lineData.x, lineData.y);
       });
+      this._plot.draw();
+
+      do {
+        this._numStepsNextPlotUpdate += this._numStepsPerUpdate;
+      } while (this._model.numSteps >= this._numStepsNextPlotUpdate);
     }
-    d3.zip(this._plot.lines, linesData).forEach(([line, lineData]) => {
-      line.addData(lineData.x, lineData.y);
-    });
-    this._plot.draw();
   }
   
   // TODO: tear down.
@@ -503,7 +502,7 @@ class ModelControls extends React.Component {
   }
 
   render() {
-    return React.createElement('form', {id: 'controls'}, [
+    return React.createElement('form', {id: 'model_controls'}, [
       React.createElement('span', null, [
         'step',
         React.createElement(
@@ -552,6 +551,21 @@ class ModelControls extends React.Component {
   }
 }
 
+
+class Forms {  // TODO: Mixin class.
+
+  static renderInput(component, variableName, description,
+                     inputToValue = parseInt) {
+    return React.createElement('div', null, [
+      React.createElement('input', {
+        value: component.state[variableName] || '',
+        type: 'number',
+        onChange: e => component.setState({[variableName]: inputToValue(e.target.value)})
+      }),
+      description
+    ]);
+  }
+}
 
 
 

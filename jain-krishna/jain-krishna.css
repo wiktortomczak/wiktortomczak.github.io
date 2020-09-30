@@ -26,7 +26,11 @@ header h1 {
     margin: 10px;
 }
 
-svg#species_graph {
+#model {
+    clear: both;
+}
+
+#species_graph {
     width: 600px;
     height: 600px;
 }
@@ -90,6 +94,7 @@ path {
 
 
 input[type="number"] {
+    width: 4em;
     text-align: right;
    -moz-appearance: textfield;
     margin-right: 5px;
@@ -99,6 +104,15 @@ input[type="number"] {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
+}
+
+input[readonly] {
+    background-color: #eee;
+}
+
+#parameters {
+    float: left;
+    margin-right: 10px;
 }
 
 #parameters table {
@@ -114,15 +128,7 @@ input::-webkit-inner-spin-button {
     margin-top: 10px;
 }
 
-#controls input[type="number"] {
-    width: 4em;
-}
-
-input[readonly] {
-    background-color: #eee;
-}
-
-#controls span, #controls input[type="range"] {
+#model_controls span, #model_controls input[type="range"] {
     margin-right: 10px;
 }
 

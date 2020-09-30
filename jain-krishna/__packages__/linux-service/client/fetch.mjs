@@ -1,5 +1,6 @@
 
 import assert from 'https://tomczak.xyz/jain-krishna/__packages__/linux-service/client/assert.mjs';
+import Stream from 'https://tomczak.xyz/jain-krishna/__packages__/linux-service/client/stream.mjs';
 
 
 class Fetch {
@@ -71,7 +72,7 @@ class FetchResponse {
     });
   }
 
-  getStream() {
+  getUint8Stream() {
     const stream = new Stream();
     this._responsePromise.then(response => {
       this._assertResponseOk(response);  // TODO: Write into stream.
@@ -82,7 +83,7 @@ class FetchResponse {
 
   getJsonStream({framing, shouldParse}) {
     return JsonStream.fromDataStream(
-      this.getStream(), {framing, shouldParse});
+      this.getUint8Stream(), {framing, shouldParse});
   }
 
   cancel() {
@@ -116,40 +117,12 @@ class FetchResponse {
     }
     catch (e) {
       // TODO: stream.fail();
-      this._responseReadResolver.reject();
+      this._responseReadResolver.reject(e);
     }
   }
   
   _assertResponseOk(response) {
     assert(response.ok, () => response.status + ' ' + response.statusText);
-  }
-}
-
-
-// TODO: https://developer.mozilla.org/en-US/docs/Web/API/Streams_API
-class Stream {
-  
-  constructor() {
-    this._onData = null;
-    this._onEnd = null;
-  }
-
-  put(data) {
-    this._onData(data);
-  }
-
-  end() {
-    this._onEnd && this._onEnd();
-  }
-
-  onData(callback) {
-    this._onData = callback;
-    return this;
-  }
-
-  onEnd(callback) {
-    this._onEnd = callback;
-    return this;
   }
 }
 
