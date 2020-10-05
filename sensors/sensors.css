@@ -1,0 +1,19 @@
+
+div > div {
+    width: 300px;
+    height: 300px;
+    float: left;
+}
+
+svg {
+    width: 300;
+    height: 300;
+}
+
+circle, ellipse, rect {
+    fill: #bbb;
+}
+
+#fake_sensor_readings input {
+    width: 100%;
+}
