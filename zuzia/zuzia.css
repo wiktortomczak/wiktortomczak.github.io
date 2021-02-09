@@ -1,0 +1,43 @@
+
+body, input, button {
+    font-family: sans-serif;
+    font-size: 11pt;
+}
+
+button + span {
+    margin-left: 5px;
+}
+
+#tabs {
+    margin-bottom: 10px;
+}
+
+#tabs span {
+    display: inline-block;
+    border: 1px solid black;
+    margin-right: 10px;
+    padding: 5px;
+}
+
+#tabs span.selected {
+    color: white;
+    background-color: black;
+    border: 1px solid white;
+}
+
+#sensor label, #playback label {
+    display: inline-block;
+    width: 5em;
+}
+
+#sensor span {
+    margin-right: 5px;
+}
+
+#plot {
+    margin-top: 10px;
+}
+
+#recordings form {
+    display: inline-block;
+}
