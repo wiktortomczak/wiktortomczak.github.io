@@ -1,0 +1,73 @@
+body, input, button {
+    font-family: sans-serif;
+}
+
+footer {
+    width: 100%;
+    height: 1.5em;
+    border-top: 1px solid black;
+    margin-top: 10px;
+    padding-top: 2px;
+    background-color: #dfe4ef;
+    position: relative;
+}
+
+footer > *:not(:first-child) {
+    margin-left: 10px; 
+} 
+
+footer button {
+    position: absolute;
+    right: 0px;
+}
+
+#Start .not_started {
+    color: black;
+}
+
+#Start .started {
+    color: goldenrod;
+}
+
+#Start .completed {
+    color: green;
+}
+
+#SessionSummary div.block {
+    display: inline-block;
+    float: left;
+    margin-left: 10px;
+    /* margin-right: 10px; */
+}
+
+#SessionSummary thead {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#SessionSummary td {
+    text-align: right;
+}
+
+button {
+    text-transform: uppercase;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid black;
+    padding: 2px;
+}
+
+label:after {
+    content: ': ';
+}
+            
+
+/* #SessionSummary > div:last-of-type:after { */
+/*     clear: both; */
+/* } */
