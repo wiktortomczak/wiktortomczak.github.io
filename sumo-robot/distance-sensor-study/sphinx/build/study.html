@@ -1,0 +1,685 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>HC-SR04 distance sensor study &#8212; distance-sensor-study  documentation</title>
+    <link rel="stylesheet" href="_static/better.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/better_fix.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style type="text/css">.float-left { float: left; margin-right: 2em; margin-bottom: 20px; }div.section { clear: both; }</style>
+  </head><body>
+    <header id="pageheader"><h1><a href="# ">
+        distance-sensor-study  documentation
+    </a></h1></header>
+  <div class="related top">
+  <nav id="rellinks">
+    <ul>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="#">distance-sensor-study  documentation</a></li> 
+    </ul>
+  </nav>
+  </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="hc-sr04-distance-sensor-study">
+<h1>HC-SR04 distance sensor study<a class="headerlink" href="#hc-sr04-distance-sensor-study" title="Permalink to this headline">¶</a></h1>
+<p>This is a study of <a class="reference external" href="https://google.com/search?q=HC-SR04+ultrasonic+sensor">HC-SR04 ultrasonic distance sensors</a>, of the data /
+readings they provide and their applicability in the <a class="reference external" href="https://github.com/wiktortomczak/sumo">sumo robot</a>.</p>
+<div class="section" id="goals-motivations">
+<h2>Goals / motivations<a class="headerlink" href="#goals-motivations" title="Permalink to this headline">¶</a></h2>
+<p>The purpose of this study of HC-SR04 distance sensors is to understand</p>
+<ul class="simple">
+<li>What kind of vision / perception of the robot’s environment the sensors
+provide?</li>
+<li>How to build the robot’s object detection system based on these sensors?</li>
+</ul>
+</div>
+<div class="section" id="questions">
+<h2>Questions<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h2>
+<p>The questions that the study aims to answer are:</p>
+<ol class="arabic">
+<li><p class="first">What readings does a sensor produce?</p>
+</li>
+<li><p class="first">What is a sensor’s field of view (receptive field)?</p>
+</li>
+<li><div class="first line-block">
+<div class="line">How unambiguous the readings are?</div>
+<div class="line">(What extent of object locations maps to a single reading value?)</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">How reliable / consistent the readings are?</div>
+<div class="line">(What range of readings is produced for a fixed object location / distance?)</div>
+</div>
+</li>
+<li><p class="first">Do adjacent sensors interfere with each other?</p>
+</li>
+</ol>
+</div>
+<div class="section" id="key-results">
+<h2>Key results<a class="headerlink" href="#key-results" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="answers">
+<h3>Answers<a class="headerlink" href="#answers" title="Permalink to this headline">¶</a></h3>
+<p>In summary, the answers to the above questions are:</p>
+<ol class="arabic simple">
+<li>What readings does a sensor produce?</li>
+</ol>
+<blockquote>
+<div><p>Most of the time, sensor readings are the distance to the object in its field
+of view, as one would expect. The readings are fairly accurate, the correct
+distance +- TODO mm. This is consistenly so for all object distances and angles
+in the sensor’s field of view (answer 2.).  TODO angle error range</p>
+<p>However, at object distance over 1m, TODO% readings become (very) inaccurate.
+This is likely due to interference between sensors, whose fields of operation
+overlap, or due to another object affecting the experiment.</p>
+<div class="line-block">
+<div class="line">See <span class="xref std std-ref">Distance reading vs target angle distribution</span>.</div>
+<div class="line">See <a class="reference internal" href="#chart7"><span class="std std-ref">Chart 7</span></a>.</div>
+</div>
+<p>A sensor produces a reading every TODO ms on average, which amounts to
+TODO readings per 1 s.</p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li>What is a sensor’s field of view (receptive field)?</li>
+</ol>
+<blockquote>
+<div><p>A sensor detects objects at a range of distances from 0 mm at least up to 1 m
+and possibly further (answer 1.), and at a range of angles +- TODO deg relative
+to sensor’s front axis.</p>
+<div class="line-block">
+<div class="line">See <span class="xref std std-ref">Distance reading vs target angle distribution</span>.</div>
+<div class="line">See <a class="reference internal" href="#chart2"><span class="std std-ref">Chart 2</span></a>.</div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li>How reliable / unambiguous the readings are?</li>
+</ol>
+<blockquote>
+<div><p>Sensor readings reliably reflect object distance, with +- TODO mm accuracy, if
+the object is up to 1m away and possibly further, and at an angle [0, +-TODO]
+deg from the sensor’s front axis. If the object is at an angle +-[TODO, TODO]
+deg, TODO% readings are unreliable. The readings do not indicate object’s angle,
+obviously.</p>
+<p>In others words, given a reading, the object is at the measured distance +- TODO mm,
+at an unknown angle between [TODO, TODO], if the object is sure to be within 1 m
+distance and this angle range. If the object can be at angle TODO, any isolated
+reading is unreliable.</p>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li>How consistent the readings are?</li>
+</ol>
+<blockquote>
+<div>See <a class="reference internal" href="#chart4"><span class="std std-ref">Chart 4</span></a>.</div></blockquote>
+<ol class="arabic simple" start="5">
+<li>Do adjacent sensors interfere with each other?</li>
+</ol>
+<blockquote>
+<div><p>The sensors interfere in the overlapping areas of their fields of view,
+especially in their parts further away from the sensors.</p>
+<div class="line-block">
+<div class="line">See <a class="reference internal" href="#chart6"><span class="std std-ref">Chart 6</span></a>.</div>
+<div class="line">See <a class="reference internal" href="#chart7"><span class="std std-ref">Chart 7</span></a>.</div>
+</div>
+</div></blockquote>
+<p>Note: Answers related to sensors’s distance and angle range were based on the
+data from the <code class="docutils literal notranslate"><span class="pre">right</span></code> sensor. It was taken as a proxy for a single isolated
+sensor, as it overlapped the least with other sensors.</p>
+</div>
+<div class="section" id="conclusions">
+<h3>Conclusions<a class="headerlink" href="#conclusions" title="Permalink to this headline">¶</a></h3>
+<p>Reliable detection of object’s angle in addition to object’s distance is only
+possible if the angular field of view <a class="footnote-reference" href="#id3" id="id2">[1]</a> is limited, thus limiting the
+uncertainty about the angle.</p>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id4">2</a>)</em> the range of angles at which the sensor can detect the object at all</td></tr>
+</tbody>
+</table>
+<p>Sensors should be placed so that their fields of operation do not overlap,
+so facing directions diverging by at least TODO deg.</p>
+<p>It could be possible to improve reading accuracy, also in areas of low accuracy
+/ sensor overlap, using information from a sequence of readings from all
+sensors, rather than from isolated readings without context</p>
+</div>
+</div>
+<div class="section" id="study-details">
+<h2>Study details<a class="headerlink" href="#study-details" title="Permalink to this headline">¶</a></h2>
+<p>The remaining part of this document explains the study, how the answers were
+established.</p>
+<div class="section" id="experiment">
+<h3>Experiment<a class="headerlink" href="#experiment" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="setup">
+<h4>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h4>
+<div class="figure" id="id8">
+<img alt="_images/scene.png" src="_images/scene.png" />
+<p class="caption"><span class="caption-text">Experiment setup. Sensors facing an empty room with a controlled object.</span></p>
+</div>
+<p>In a controlled experimental session, an <a class="reference internal" href="#sensors"><span class="std std-ref">array of three distance sensors</span></a> was placed on the floor, facing an empty room, and operated. A single
+<a class="reference internal" href="#sensor-target"><span class="std std-ref">round metal object</span></a> was being moved in front of the sensors
+to a number of <a class="reference internal" href="#target-object-locations"><span class="std std-ref">different locations</span></a>, at varying
+distance from the sensors. <a class="reference internal" href="#sensor-distance-readings"><span class="std std-ref">Distance readings from sensors</span></a> were recorded. The session was also recorded in <a class="reference internal" href="#sensor-target-video-recording"><span class="std std-ref">a video</span></a>, from a camera installed above the floor, facing down.
+This allowed to recover actual sensor-to-object distances and angles.</p>
+</div>
+<div class="section" id="analysis">
+<h4>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h4>
+<p>Later offine, distance readings from the sensors were confronted with distance
+information <a class="reference internal" href="#video-object-detection"><span class="std std-ref">extracted from the video</span></a>. Sensor
+distance readings were <a class="reference internal" href="#data-analysis"><span class="std std-ref">related</span></a> to locations / distance
+estimates of the metal object, acting as controlled sensor target. A number of
+<a class="reference internal" href="#charts"><span class="std std-ref">charts</span></a> displaying how the readings relate to the object’s
+locations were drawn and examined. The charts made apparent the <a class="reference internal" href="#answers"><span class="std std-ref">answers</span></a> to <a class="reference internal" href="#questions"><span class="std std-ref">study questions</span></a>.</p>
+<div class="figure" id="id9">
+<img alt="_images/sensor_hit.png" src="_images/sensor_hit.png" />
+<p class="caption"><span class="caption-text">Correct sensor distance reading - matches target distance estimate from
+the video.</span></p>
+</div>
+<div class="figure" id="id10">
+<img alt="_images/sensor_error.png" src="_images/sensor_error.png" />
+<p class="caption"><span class="caption-text">Incorrect sensor distance reading - matches target distance estimate from
+the video.</span></p>
+</div>
+<div class="figure" id="id11">
+<span id="miss"></span><img alt="_images/sensor_miss.png" src="_images/sensor_miss.png" />
+<p class="caption"><span class="caption-text">Sensor miss - reading value close to distance to the wall.</span></p>
+</div>
+</div>
+<div class="section" id="sensors">
+<h4>Sensors<a class="headerlink" href="#sensors" title="Permalink to this headline">¶</a></h4>
+<p>The three sensors had the following spatial arrangement:</p>
+<div class="figure" id="id12">
+<img alt="_images/sensors.jpg" src="_images/sensors.jpg" />
+<p class="caption"><span class="caption-text">Spatial arrangement of sensors <code class="docutils literal notranslate"><span class="pre">left</span></code>, <code class="docutils literal notranslate"><span class="pre">front</span></code>, <code class="docutils literal notranslate"><span class="pre">right</span></code>. In the image,
+labels are next to each sensor’s echo piece.</span></p>
+</div>
+<p>The sensors were driven by a microcontroller running <a class="reference external" href="https://github.com/wiktortomczak/sumo/controller/drivers/distance_sensor.h">sensor driver code</a> alone. The code repeatedly fired
+and read the sensors, each sensor simultaneously and independently. Readings
+were streamed live to a PC, where they were saved.</p>
+<p>Timestamps of echo high and low signals were measured with microsecond precision
+and collected microseconds after they occured, in an interrupt handler.</p>
+</div>
+<div class="section" id="sensor-target">
+<h4>Sensor target<a class="headerlink" href="#sensor-target" title="Permalink to this headline">¶</a></h4>
+<p>TODO picture, description</p>
+</div>
+</div>
+<div class="section" id="data-analysis">
+<h3>Data analysis<a class="headerlink" href="#data-analysis" title="Permalink to this headline">¶</a></h3>
+<p>In the above <a class="reference internal" href="#experiment"><span class="std std-ref">experiment</span></a>, two streams of complementary
+sensor-related data were recorded:</p>
+<ol class="arabic simple">
+<li>Sensor distance readings.</li>
+<li>Video frames with the sensor target’s location.</li>
+</ol>
+<p>To relate sensor distance readings (1) to sensor target (the metal object),
+the target’s locations in video frames (2) were <a class="reference internal" href="#mapping-space-and-time-coordinates"><span class="std std-ref">mapped</span></a> to estimates of:</p>
+<ol class="arabic simple" start="3">
+<li>Sensor target’s locations in the sensor X-Y plane (the floor).</li>
+<li>Distances and angles from each sensor’s echo piece to sensor target.</li>
+</ol>
+<p>Sensor-to-target distance estimates (4), taken as expected distance readings,
+were compared with actual sensor distance readings (1), producing an estimate
+of sensor reading error:</p>
+<ol class="arabic simple" start="5">
+<li><em>reading error</em> = sensor’s distance reading (1) - expected distance reading (4)</li>
+</ol>
+<p>The above measure of error is based on two main assumptions:</p>
+<ul class="simple">
+<li>Good accurracy of sensor-to-target distance estimates (4).</li>
+<li>Good calibration of sensor distance readings (1) - that sensors readings
+indeed indicate the distance, in millimeters.</li>
+</ul>
+<p>The relationship between sensor distance readings (1) and quantities (3, 4, 5),
+were visualized on a number of <a class="reference internal" href="#charts"><span class="std std-ref">charts</span></a> and in a <a class="reference internal" href="#video"><span class="std std-ref">video</span></a>, each presenting a different view of the total 3 dimensions:</p>
+<ul class="simple">
+<li>sensor distance readings [millimeters, 1D]</li>
+<li><dl class="first docutils">
+<dt>sensor target’s location / distance [2D], one of:</dt>
+<dd><ul class="first last">
+<li>location [(x, y) coordinates in the sensor plane, 2D]</li>
+<li>location [(distance, angle) coordinates in the sensor plane, 2D]</li>
+<li>distance reading error [millimeters, 1D]</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="section" id="mapping-space-and-time-coordinates">
+<h4>Mapping space and time coordinates<a class="headerlink" href="#mapping-space-and-time-coordinates" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="pixel-coordinates-to-sensor-plane-coordinates">
+<h5>Pixel coordinates to sensor plane coordinates<a class="headerlink" href="#pixel-coordinates-to-sensor-plane-coordinates" title="Permalink to this headline">¶</a></h5>
+<p>First, sensor target’s video frame coordinates in pixels of were mapped to
+the sensors X-Y plane (the floor) coordinates in millimeters, via an <a class="reference external" href="https://en.wikipedia.org/wiki/Transformation_matrix#Affine_transformations">affine
+transformation</a>
+of 2D vector space.</p>
+<p>Once the sensor target’s location in the sensor plane (the floor) was known,
+distance in millimeters and angle (direction) from each sensor’s echo piece
+to the sensor target was computed. Specifically, a (distance, angle) vector
+was computed between two pairs of x-y coordinates in the sensor plane:</p>
+<ul class="simple">
+<li>The sensor’s echo piece.</li>
+<li>The closest point in the sensor target’s contour.</li>
+</ul>
+<p>The closest point was determined as the closest point on a circle, the
+approximate shape of the target round metal object’s contour in the sensor
+plane.</p>
+</div>
+<div class="section" id="video-time-to-sensor-time">
+<h5>Video time to sensor time<a class="headerlink" href="#video-time-to-sensor-time" title="Permalink to this headline">¶</a></h5>
+<p>TODO</p>
+<div class="line-block">
+<div class="line">sensor time</div>
+<div class="line">video time</div>
+<div class="line">frame id</div>
+<div class="line">definitions</div>
+<div class="line">how measured</div>
+<div class="line">how one mapped to the other</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="charts">
+<h3>Charts<a class="headerlink" href="#charts" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="chart-1-target-location-xy-vs-distance-reading">
+<span id="chart1"></span><h4>Chart 1: Target location XY vs distance reading<a class="headerlink" href="#chart-1-target-location-xy-vs-distance-reading" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/TargetXYVsSensorsDistance.left.png" src="_images/TargetXYVsSensorsDistance.left.png" />
+<img alt="_images/TargetXYVsSensorsDistance.front.png" src="_images/TargetXYVsSensorsDistance.front.png" />
+<img alt="_images/TargetXYVsSensorsDistance.right.png" src="_images/TargetXYVsSensorsDistance.right.png" />
+<p>These charts show complete <a class="reference internal" href="#source-data"><span class="std std-ref">source data</span></a> with minimal processing.</p>
+<p>Each spot in the plot corresponds to a single reading of the given sensor.</p>
+<ul class="simple">
+<li>The spot’s X-Y coordinates are the sensor plane (the floor) location of the
+sensor target - of the object that presumably triggered the sensor
+reading (see <a class="reference internal" href="#known-problems-and-limitations"><span class="std std-ref">known problems</span></a> though).</li>
+<li>The spot’s color corresponds to sensor reading value, the distance it
+measured.</li>
+<li>TODO concentric circles</li>
+</ul>
+<p>Location of each sensor’s echo piece is marked with a black point.</p>
+</div>
+<div class="section" id="chart-2-target-location-xy-vs-distance-reading-sliced">
+<span id="chart2"></span><h4>Chart 2: Target location XY vs distance reading, sliced<a class="headerlink" href="#chart-2-target-location-xy-vs-distance-reading-sliced" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/TargetXYVsSensorsDistance.left.sliced.gif" src="_images/TargetXYVsSensorsDistance.left.sliced.gif" />
+<img alt="_images/TargetXYVsSensorsDistance.front.sliced.gif" src="_images/TargetXYVsSensorsDistance.front.sliced.gif" />
+<img alt="_images/TargetXYVsSensorsDistance.right.sliced.gif" src="_images/TargetXYVsSensorsDistance.right.sliced.gif" />
+<p>These charts present the sama data as <a class="reference internal" href="#chart1"><span class="std std-ref">Chart 1</span></a>.
+However, readings are sliced / broken down into 50 mm stripes. A single stripe
+only shows those target object’s locations for which the reading was in the
+stripe’s 50 mm reading range -  presumably triggered by the target object.
+Gray locations are target object’s locations for which the reading value was
+outside the stripe’s range.</p>
+<p>Observations:</p>
+<ul class="simple">
+<li>Distance readings roughly correspond to actual target’s distance.</li>
+<li><dl class="first docutils">
+<dt>Some readings are visibly incorrect:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal notranslate"><span class="pre">left</span></code> sensor: in the [1000, …] mm range.</li>
+<li><code class="docutils literal notranslate"><span class="pre">front</span></code> sensor: in the [450, 500] and [1400, 1600] mm range.</li>
+<li><code class="docutils literal notranslate"><span class="pre">right</span></code> sensor: in the [1150, 1200] and [1300, 1500] mm range.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>The incorrect readings are possibly due to an external cause, as they are only
+incorrect in ranges that are narrow, specific and different for each sensor.</li>
+<li>Sensor’s angular field of view <a class="footnote-reference" href="#id3" id="id4">[1]</a> is constant, regardless of distance and
+for all sensors.</li>
+</ul>
+</div>
+<div class="section" id="chart-3-target-location-xy-vs-reading-error">
+<span id="chart3"></span><h4>Chart 3: Target location XY vs reading error<a class="headerlink" href="#chart-3-target-location-xy-vs-reading-error" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/TargetXYVsSensorsError.left.png" src="_images/TargetXYVsSensorsError.left.png" />
+<img alt="_images/TargetXYVsSensorsError.front.png" src="_images/TargetXYVsSensorsError.front.png" />
+<img alt="_images/TargetXYVsSensorsError.right.png" src="_images/TargetXYVsSensorsError.right.png" />
+<p>These charts present the sama data as the <a class="reference internal" href="#chart1"><span class="std std-ref">Chart 1</span></a>.
+However, the color indicates <a class="reference internal" href="#reading-error-color-scale"><span class="std std-ref">reading error</span></a>,
+rather than distance. The areas in green are areas of correct readings - where
+the reading values are very close to the distance to the target object. The
+areas in red, conversely, are areas of incorrect readings.</p>
+<p>Observations:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">right</span></code> sensor readings, compared to <code class="docutils literal notranslate"><span class="pre">left</span></code> and <code class="docutils literal notranslate"><span class="pre">center</span></code>, are correct in
+a much wider range of sensor-to-target angles, at least twice as wide. This is
+likely due to larger interference betwen the latter two sensors.</li>
+<li>Readings become increasingly incorrect close to the limits of the above angle
+range. These is the case for all sensors and seems unaffected by sensor
+interference, as it occurs both at outer limits (left of the <code class="docutils literal notranslate"><span class="pre">left</span></code> sensor,
+right of the <code class="docutils literal notranslate"><span class="pre">right</span></code> sensor) and at inner limits, that overlap between
+sensors.</li>
+<li>In the range of angles where readings are correct, they are correct at all
+distances.</li>
+<li><code class="docutils literal notranslate"><span class="pre">right</span></code> sensor: readings are incorrect in the far right corner, for an
+unknown reason.</li>
+</ul>
+</div>
+<div class="section" id="xy-chart-notes">
+<h4>XY chart notes<a class="headerlink" href="#xy-chart-notes" title="Permalink to this headline">¶</a></h4>
+<p>In the above X-Y charts, the time dimension can be recovered by running the
+<a class="reference internal" href="#source-code"><span class="std std-ref">chart-generating code</span></a> with the <code class="docutils literal notranslate"><span class="pre">--annotate=...</span></code> flag.</p>
+</div>
+<div class="section" id="reading-error-color-scale">
+<h4>Reading error color scale<a class="headerlink" href="#reading-error-color-scale" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/reading_error.png" class="float-left" src="_images/reading_error.png" />
+<p>Where noted, the color represents <a class="reference internal" href="#data-analysis"><span class="std std-ref">distance reading error</span></a>,
+that is, the difference between sensor distance reading and expected reading,
+rather than simply the former. In these cases, red locations are target’s
+locations for which the sensor’s reading of distance to target is off
+(too low or too high) by 50 mm or more. Gray locations are <a class="reference internal" href="#miss"><span class="std std-ref">misses</span></a>
+- target’s locations that triggered an “empty” reading of the stationary wall.</p>
+</div>
+<div class="section" id="chart-4-distance-reading-vs-target-distance">
+<span id="chart4"></span><h4>Chart 4: Distance reading vs target distance<a class="headerlink" href="#chart-4-distance-reading-vs-target-distance" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/SensorsDistanceVsTargetDistance.left.png" src="_images/SensorsDistanceVsTargetDistance.left.png" />
+<img alt="_images/SensorsDistanceVsTargetDistance.front.png" src="_images/SensorsDistanceVsTargetDistance.front.png" />
+<img alt="_images/SensorsDistanceVsTargetDistance.right.png" src="_images/SensorsDistanceVsTargetDistance.right.png" />
+<div class="line-block">
+<div class="line">TODO: observations</div>
+<div class="line">roughly correct</div>
+<div class="line">front 500, left 1000+, front 1200+, right 1200+</div>
+<div class="line">spread with angle</div>
+</div>
+<div class="line-block">
+<div class="line">TODO: legend</div>
+</div>
+</div>
+<div class="section" id="chart-5-distance-reading-vs-cumulative-reading-error-distribution">
+<span id="chart5"></span><h4>Chart 5: Distance reading vs cumulative reading error distribution<a class="headerlink" href="#chart-5-distance-reading-vs-cumulative-reading-error-distribution" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/SensorsDistanceVsCumulativeErrorDistribution.left.png" src="_images/SensorsDistanceVsCumulativeErrorDistribution.left.png" />
+<img alt="_images/SensorsDistanceVsCumulativeErrorDistribution.front.png" src="_images/SensorsDistanceVsCumulativeErrorDistribution.front.png" />
+<img alt="_images/SensorsDistanceVsCumulativeErrorDistribution.right.png" src="_images/SensorsDistanceVsCumulativeErrorDistribution.right.png" />
+</div>
+<div class="section" id="chart-6-distance-reading-vs-reading-error-distribution">
+<span id="chart6"></span><h4>Chart 6: Distance reading vs reading error distribution<a class="headerlink" href="#chart-6-distance-reading-vs-reading-error-distribution" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/SensorsDistanceVsErrorDistribution.left.png" src="_images/SensorsDistanceVsErrorDistribution.left.png" />
+<img alt="_images/SensorsDistanceVsErrorDistribution.front.png" src="_images/SensorsDistanceVsErrorDistribution.front.png" />
+<img alt="_images/SensorsDistanceVsErrorDistribution.right.png" src="_images/SensorsDistanceVsErrorDistribution.right.png" />
+<p>These charts present the distribution of distance reading error in each distance
+reading interval. That is, given a reading, how likely the reading is correct
+and how big the error possibly is.</p>
+<p>TODO: How these charts relate to <a class="reference internal" href="#chart4"><span class="std std-ref">Chart 4</span></a>.</p>
+<p>Observations:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">right</span></code> sensor: Readings below ca. 1000 mm are correct and accurate,
+error ≤ 50 mm.</li>
+<li><code class="docutils literal notranslate"><span class="pre">left</span></code>, <code class="docutils literal notranslate"><span class="pre">center</span></code> sensors: Readings below ca. 1000 mm are also quite
+correct, but less so, error ∊ [25, 75] mm. This is likely due to larger
+interference betwen these two sensors.</li>
+<li><code class="docutils literal notranslate"><span class="pre">front</span></code> sensor: Many readings of ca. 500 mm are wrong. Possibly, another
+object repeatedly entered the sensor’s field of view during the experiment,
+at 500 mm distance, while the reference target was at various locations and
+distances.</li>
+</ul>
+</div>
+<div class="section" id="chart-7-target-angle-vs-reading-error-distribution">
+<span id="chart7"></span><h4>Chart 7: Target angle vs reading error distribution<a class="headerlink" href="#chart-7-target-angle-vs-reading-error-distribution" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/TargetAngleVsErrorDistribution.left.png" src="_images/TargetAngleVsErrorDistribution.left.png" />
+<img alt="_images/TargetAngleVsErrorDistribution.front.png" src="_images/TargetAngleVsErrorDistribution.front.png" />
+<img alt="_images/TargetAngleVsErrorDistribution.right.png" src="_images/TargetAngleVsErrorDistribution.right.png" />
+<p>These charts present the distribution of distance reading error in each
+sensor-to-target angle interval. That is, how does the reading error depend
+on the angle at which the target is located wrt. the sensor.</p>
+<p>Observations:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>The range of sensor-to-target angles with correct readings is:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal notranslate"><span class="pre">left</span></code> and <code class="docutils literal notranslate"><span class="pre">right</span></code> sensors : ca. 70 deg</li>
+<li><code class="docutils literal notranslate"><span class="pre">front</span></code> sensor : ca. 60 deg, more narrow likely due to more interference</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><code class="docutils literal notranslate"><span class="pre">right</span></code> sensor: In the above angle range, readings are correct,
+error ≤ 50 mm.</li>
+<li><code class="docutils literal notranslate"><span class="pre">right</span></code> sensor: Many readings are incorrect in the [60, 70] deg interval.
+These are likely the readings when the target object was in the far right
+corner.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="video">
+<h3>Video<a class="headerlink" href="#video" title="Permalink to this headline">¶</a></h3>
+<iframe src="https://www.youtube.com/embed/TBBezBjlw-4" style="border: 0; height: 345px; width: 560px">
+</iframe><p>The video superposes sensor readings on the <a class="reference internal" href="#sensor-target-video-recording"><span class="std std-ref">video recording of the
+sensor’s target object’s locations</span></a></p>
+<p>The readings are visualized as:</p>
+<ul class="simple">
+<li>concentric arcs radiating from each sensor’s echo piece</li>
+<li>glowing of each echo piece</li>
+<li>sliding bars with reading error</li>
+</ul>
+<p>The color of arcs (readings) and sliding bars (errors) indicates <a class="reference internal" href="#reading-error-color-scale"><span class="std std-ref">reading
+error</span></a>.</p>
+<p>Arc angle span (width) is set explicitly to a fixed value TODO deg, based on
+<a class="reference internal" href="#answers"><span class="std std-ref">answer 2.</span></a></p>
+<p>The video was primarily useful for solving problems with the study itself, by
+inspecting relevant video frames. It allowed eg.</p>
+<ul class="simple">
+<li>to identify experimental causes of reading error</li>
+<li>to double-check target object’s location extracted from the video</li>
+</ul>
+<p>The video corresponds to video frame ids [TODO-TODO] in the <a class="reference internal" href="#raw-data-combined"><span class="std std-ref">combined
+source data</span></a> dump.</p>
+</div>
+<div class="section" id="source-data">
+<h3>Source data<a class="headerlink" href="#source-data" title="Permalink to this headline">¶</a></h3>
+<p>The source data underlying the study consisted of two streams of complementary
+sensor-related data:</p>
+<ol class="arabic simple">
+<li><a class="reference internal" href="#sensor-distance-readings"><span class="std std-ref">Sensor distance readings</span></a> - ~9k readings in the overlapping time
+window <a class="footnote-reference" href="#id7" id="id5">[2]</a>.</li>
+<li><a class="reference internal" href="#sensor-target-video-recording"><span class="std std-ref">Video frames</span></a> with the sensor target’s
+location - TODO frames in the overlapping time window <a class="footnote-reference" href="#id7" id="id6">[2]</a>.</li>
+</ol>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id5">1</a>, <a class="fn-backref" href="#id6">2</a>)</em> The overlapping time window, in which both distance readings and video frames
+were recorded, was 2 min 17 s.</td></tr>
+</tbody>
+</table>
+<p>See <a class="reference internal" href="#chart1"><span class="std std-ref">Chart 1</span></a>.</p>
+<div class="section" id="target-object-locations">
+<h4>Target object locations<a class="headerlink" href="#target-object-locations" title="Permalink to this headline">¶</a></h4>
+<p>The target round metal object’s locations were a dense sample of the sensor X-Y
+plane’s (the floor) area recorded in the video. Two types of the target object’s
+moves were recorded:</p>
+<ul class="simple">
+<li>Slow parallel sweeps, mostly orthogonal to the sensors.</li>
+<li>Faster random moves, mostly towards / away from the sensors.</li>
+</ul>
+</div>
+<div class="section" id="raw-data-combined">
+<h4>Raw data combined<a class="headerlink" href="#raw-data-combined" title="Permalink to this headline">¶</a></h4>
+<p>TODO: embed DataFrame</p>
+</div>
+<div class="section" id="sensor-distance-readings">
+<h4>Sensor distance readings<a class="headerlink" href="#sensor-distance-readings" title="Permalink to this headline">¶</a></h4>
+<p>TODO</p>
+<div class="line-block">
+<div class="line">sensor recording content, format</div>
+<div class="line">actual distance sensor reading, in millimeters</div>
+</div>
+</div>
+<div class="section" id="sensor-target-video-recording">
+<h4>Sensor target video recording<a class="headerlink" href="#sensor-target-video-recording" title="Permalink to this headline">¶</a></h4>
+<p>TODO</p>
+</div>
+<div class="section" id="video-object-detection">
+<h4>Video object detection<a class="headerlink" href="#video-object-detection" title="Permalink to this headline">¶</a></h4>
+<p>TODO</p>
+<div class="line-block">
+<div class="line">video object extraction</div>
+<div class="line">frames</div>
+<div class="line">interpolation</div>
+</div>
+</div>
+</div>
+<div class="section" id="source-code">
+<h3>Source code<a class="headerlink" href="#source-code" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://github.com/wiktortomczak/sumo/distance_sensors/analysis/analyze.py">Data analysis source code</a>
+- produced the <a class="reference internal" href="#charts"><span class="std std-ref">charts</span></a>, the <a class="reference internal" href="#video"><span class="std std-ref">video</span></a> and the
+<a class="reference internal" href="#raw-data-combined"><span class="std std-ref">combined source data</span></a> dump.</p>
+</div>
+</div>
+<div class="section" id="known-problems-and-limitations">
+<h2>Known problems and limitations<a class="headerlink" href="#known-problems-and-limitations" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Artifact distance reading errors, likely due to experimenters’ legs entering
+the sensor’s field of operation</li>
+<li><dl class="first docutils">
+<dt>Incorrect estimates of sensors target’s location and distance, due to:</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>Errors in video object detection</dt>
+<dd><ul class="first last">
+<li>Incorrect object location, in particular at frame right (far) edge
+(distance to sensors TODO mm)</li>
+<li>Missed object in TODO frames</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Errors in translation from camera plane to sensor plane, due to:</dt>
+<dd><ul class="first last">
+<li>Incorrect approximation of 3D space by 2D space, based on an assumption
+that camera and sensor planes are parallel</li>
+<li>Optical distortions, perspective</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>Errors in interpolation of target’s location, from locations at
+video frames immediately preceding and following a reading</li>
+<li>Errors in mapping video time to sensor time</li>
+<li>Errors in reading times reported by sensor</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>Specific shape and material of sensor target: round and metal</li>
+</ul>
+</div>
+<div class="section" id="future-work">
+<h2>Future work<a class="headerlink" href="#future-work" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Remove artifact distance reading errors by fixing the experimental procedure</li>
+<li>Fix estimates of sensor targets’ location and distance</li>
+<li>Analyze a single sensor, free of interferences with other sensors</li>
+<li>Analyze multiple sensors, arranged spatially without overlap</li>
+<li>Build and evaluate a complete object detection system from combined sensors</li>
+<li>Confirm that sensor reading frequency is as high as possible or remove the cause
+of slowdown</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">HC-SR04 distance sensor study</a><ul>
+<li><a class="reference internal" href="#goals-motivations">Goals / motivations</a></li>
+<li><a class="reference internal" href="#questions">Questions</a></li>
+<li><a class="reference internal" href="#key-results">Key results</a><ul>
+<li><a class="reference internal" href="#answers">Answers</a></li>
+<li><a class="reference internal" href="#conclusions">Conclusions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#study-details">Study details</a><ul>
+<li><a class="reference internal" href="#experiment">Experiment</a><ul>
+<li><a class="reference internal" href="#setup">Setup</a></li>
+<li><a class="reference internal" href="#analysis">Analysis</a></li>
+<li><a class="reference internal" href="#sensors">Sensors</a></li>
+<li><a class="reference internal" href="#sensor-target">Sensor target</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#data-analysis">Data analysis</a><ul>
+<li><a class="reference internal" href="#mapping-space-and-time-coordinates">Mapping space and time coordinates</a><ul>
+<li><a class="reference internal" href="#pixel-coordinates-to-sensor-plane-coordinates">Pixel coordinates to sensor plane coordinates</a></li>
+<li><a class="reference internal" href="#video-time-to-sensor-time">Video time to sensor time</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#charts">Charts</a><ul>
+<li><a class="reference internal" href="#chart-1-target-location-xy-vs-distance-reading">Chart 1: Target location XY vs distance reading</a></li>
+<li><a class="reference internal" href="#chart-2-target-location-xy-vs-distance-reading-sliced">Chart 2: Target location XY vs distance reading, sliced</a></li>
+<li><a class="reference internal" href="#chart-3-target-location-xy-vs-reading-error">Chart 3: Target location XY vs reading error</a></li>
+<li><a class="reference internal" href="#xy-chart-notes">XY chart notes</a></li>
+<li><a class="reference internal" href="#reading-error-color-scale">Reading error color scale</a></li>
+<li><a class="reference internal" href="#chart-4-distance-reading-vs-target-distance">Chart 4: Distance reading vs target distance</a></li>
+<li><a class="reference internal" href="#chart-5-distance-reading-vs-cumulative-reading-error-distribution">Chart 5: Distance reading vs cumulative reading error distribution</a></li>
+<li><a class="reference internal" href="#chart-6-distance-reading-vs-reading-error-distribution">Chart 6: Distance reading vs reading error distribution</a></li>
+<li><a class="reference internal" href="#chart-7-target-angle-vs-reading-error-distribution">Chart 7: Target angle vs reading error distribution</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#video">Video</a></li>
+<li><a class="reference internal" href="#source-data">Source data</a><ul>
+<li><a class="reference internal" href="#target-object-locations">Target object locations</a></li>
+<li><a class="reference internal" href="#raw-data-combined">Raw data combined</a></li>
+<li><a class="reference internal" href="#sensor-distance-readings">Sensor distance readings</a></li>
+<li><a class="reference internal" href="#sensor-target-video-recording">Sensor target video recording</a></li>
+<li><a class="reference internal" href="#video-object-detection">Video object detection</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#source-code">Source code</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#known-problems-and-limitations">Known problems and limitations</a></li>
+<li><a class="reference internal" href="#future-work">Future work</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="related bottom">
+  <nav id="rellinks">
+    <ul>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="#">distance-sensor-study  documentation</a></li> 
+    </ul>
+  </nav>
+  </div>
+  <footer id="pagefooter">&copy; 2020, Wiktor Tomczak.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a>
+      1.8.5
+        with the <a href="http://github.com/irskep/sphinx-better-theme">
+          better</a> theme.
+
+  </footer>
+
+  
+  </body>
+</html>
