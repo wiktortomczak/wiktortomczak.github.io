@@ -31,9 +31,17 @@ img.right_big {
   margin-left: 2em;
   width: 20em;
 }
+#header {
+  text-align: right;
+}
   </style>
 </head>
 <body>
+  <section id="header">
+    english
+    <a href="../robotyka-ewolucyjna">polski</a>
+  </section>
+  <section id="main">
   <h1>Evolutionary robotics</h1>
   <p>
 <img src="roboty.jpg" class="right_big" />
@@ -57,7 +65,7 @@ In contrast to the above, evolution is a design process that is incremental,
 bottom-up and holistic. It starts from a minimal but already functioning system
 (organism, mechanism, etc.), then improves upon it, typically by adding further
 and/or elaborating extant mechanisms. Evolution is also organic, it operates
-without a deliberate plan and is only driven by a trend towards ever increasing
+without a&nbsp;deliberate plan and is only driven by a trend towards ever increasing
 efficiency (fitness). At the source of this increase are accumulating random
 modifications, which persist if they are beneficial.
   </p>
@@ -72,9 +80,9 @@ and tests great many variations of previously working instances. Evolution is no
 afraid of complexity. It often produces accordingly complex solutions itself.
   </p>
   <p>
-&ldquo;Evolutions finds its application&rdquo; is an intended expression &ndash; evolution is
-a technique, one that is applied or delibarety brought about. It is a very general
-phenomenon, that takes place every time three conditions are met:
+&ldquo;Evolution finds its application&rdquo; is an intended expression &ndash; evolution is
+a&nbsp;technique, one that is applied or deliberately brought about. It is a very general
+phenomenon that takes place every time three conditions are met:
   </p>
   <p>
     <ol>
@@ -88,7 +96,7 @@ phenomenon, that takes place every time three conditions are met:
   <p>
 As a result of these three processes, a population of instances exhibits a trend
 towards increasingly efficient instances. Such instances replicate more often and
-become widespread in the population. Random modifications at replication occassionally
+become widespread in the population. Random modifications during replication occassionally
 produce still more efficient instances, which again spread in the population. In the
 living world, this process is termed natural selection. However, it is much more
 universal. It is not limited to nature and occurs also eg. in human culture (the universe
@@ -97,11 +105,11 @@ of man's creations), science, technology, business.
   <p>
 In robotics one induces evolution by simulating, on a computer, a population of robots
 and their reproduction, variation and selection. In each step of the simulation
-a succesive generation of robots is generated. Robots are simulated and their efficiency
+a successive generation of robots is generated. Robots are simulated and their efficiency
 (fitness) is evaluated. Then the most efficient ones are replicated, with replication
 chance proportional to the evaluated efficiency and with random modifications.
 Efficiency is evaluated with respect to the problem that the evolution should solve,
-that is with respect to the features that the robot are intended to acquire. eg.
+that is with respect to the features that the robots are intended to acquire. eg.
 If the problem is for the robot to walk, efficiency is evaluated as how long / how far
 the robot managed to walk in a test simulation. The evalution criteria is defined
 deliberately. It it what induces selective pressure (artifical selection) for the
@@ -112,7 +120,7 @@ desired robot ability or feature.
 It is worth noting that the above algorithm to evolve solutions by simulating
 reproduction, variation and reproduction is not limited to robots. Such algorithms
 are termed genetic algorithms and are applied to various design and optimization
-problems. eg. NASA used a genetic algorithm to evolve a spaceship antenna that
+problems. eg. NASA used a&nbsp;genetic algorithm to evolve a spaceship antenna that
 outperformed man-designed antennas.
   </p>
   <p>
@@ -134,5 +142,6 @@ This would give a detailed insight into a possible origin of language.
 In the related field of artificial intelligence, virtual creatures are simulated
 in a similar hope of recreating the origin of intelligence and complex life forms.
   </p>
+  </section>
 </body>
 </html>
