@@ -1,0 +1,138 @@
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="calluna.css" />
+  <style>
+body {
+  font-family: Calluna;
+  margin-left: 20%;
+  width: 35em;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  font-size: larger;
+}
+p, ol {
+  line-height: 1.5em;
+}
+h1 + p {
+  font-style: italic;
+}
+img.left {
+  float: left;
+  margin-right: 1em;
+  width: 10em;
+}
+img.right {
+  float: right;
+  margin-left: 1em;
+  width: 10em;
+}
+img.right_big {
+  float: right;
+  margin-left: 2em;
+  width: 20em;
+}
+  </style>
+</head>
+<body>
+  <h1>Evolutionary robotics</h1>
+  <p>
+<img src="roboty.jpg" class="right_big" />
+The goal of this article is to introduce the field of evolutionary robotics.
+It is a&nbsp;subfield of robotics at the frontier of engineering and science that
+follows a radically alternative approach to robot design, namely evolution.
+The basic idea is to have robots evolve, rather than to design them. What does
+it mean, how does it work and what are its applications?
+  </p>
+  <p>
+We can start answering these questions by contrasting evolution with human design
+process, traditionally employed by engineers. People typically build a solution
+by deliberately decomposing (analyzing) the problem into easier and smaller
+subproblems and then combining (synthesizing) their subsolutions. This method
+is commonly referred to as top-down or divide-and-conquer. eg. When designing car,
+we notice that it requires a drive, steering any many more; Then we design the drive:
+we notice than the engine requires fuel, ignition, ...; and so on towards smaller details.
+  </p>
+  <p>
+In contrast to the above, evolution is a design process that is incremental,
+bottom-up and holistic. It starts from a minimal but already functioning system
+(organism, mechanism, etc.), then improves upon it, typically by adding further
+and/or elaborating extant mechanisms. Evolution is also organic, it operates
+without a deliberate plan and is only driven by a trend towards ever increasing
+efficiency (fitness). At the source of this increase are accumulating random
+modifications, which persist if they are beneficial.
+  </p>
+  <p>
+Evolution finds its application in robotics, because it solves problems that
+are notoriously hard for human engineers; in particular, problems which exhibit
+complexity &ndash; that is, many parts that depend on each other and behave differently
+than in isolation &ndash; and so do not lend themselves to classical analysis into parts.
+Being mindless, the evolutionary process finds their solutions. It does not rely
+on analysis &ndash; prohibitively difficult at times &ndash; instead it relentlessly creates
+and tests great many variations of previously working instances. Evolution is not
+afraid of complexity. It often produces accordingly complex solutions itself.
+  </p>
+  <p>
+&ldquo;Evolutions finds its application&rdquo; is an intended expression &ndash; evolution is
+a technique, one that is applied or delibarety brought about. It is a very general
+phenomenon, that takes place every time three conditions are met:
+  </p>
+  <p>
+    <ol>
+<li>(reproduction) instances replicate
+<li>(varation) new instances are similar but not identical to their predecessors;
+    they bear random modifications
+<li>(selection) instances reproduce with varying efficiency, depending on some their
+    features, which can vary
+    </ol>
+  </p>
+  <p>
+As a result of these three processes, a population of instances exhibits a trend
+towards increasingly efficient instances. Such instances replicate more often and
+become widespread in the population. Random modifications at replication occassionally
+produce still more efficient instances, which again spread in the population. In the
+living world, this process is termed natural selection. However, it is much more
+universal. It is not limited to nature and occurs also eg. in human culture (the universe
+of man's creations), science, technology, business.
+  </p>
+  <p>
+In robotics one induces evolution by simulating, on a computer, a population of robots
+and their reproduction, variation and selection. In each step of the simulation
+a succesive generation of robots is generated. Robots are simulated and their efficiency
+(fitness) is evaluated. Then the most efficient ones are replicated, with replication
+chance proportional to the evaluated efficiency and with random modifications.
+Efficiency is evaluated with respect to the problem that the evolution should solve,
+that is with respect to the features that the robot are intended to acquire. eg.
+If the problem is for the robot to walk, efficiency is evaluated as how long / how far
+the robot managed to walk in a test simulation. The evalution criteria is defined
+deliberately. It it what induces selective pressure (artifical selection) for the
+desired robot ability or feature.
+  </p>
+  <p>
+<img src="antena.jpg" class="left" style="width: 10em" />
+It is worth noting that the above algorithm to evolve solutions by simulating
+reproduction, variation and reproduction is not limited to robots. Such algorithms
+are termed genetic algorithms and are applied to various design and optimization
+problems. eg. NASA used a genetic algorithm to evolve a spaceship antenna that
+outperformed man-designed antennas.
+  </p>
+  <p>
+Other than the above application in engineering, evolutionary robotics is also
+employed in science &ndash; in studies of human mind, intelligence, language, cognitive
+skills, etc. Some researches believe that understanding these phenomena directly
+and in their developed form is beyond reach. As products of evolution, they are
+very complex and quite unlike man-designed systems. Instead, the researchers
+strive to study their origins; specifically, by recreating their evolution in
+a simulation. This evokes the famous observation by T. Dobzhansky:
+&ldquo;<i>Nothing makes sense in biology except in the light of evolution</i>&rdquo;.
+Eg. In some studies of the origin of human language, robots are evolved to solve
+(have their fitness evaluated on) a task that requires them to cooperate.
+It is hoped that the robots evolve some preliminary forms of communication.
+This would give a detailed insight into a possible origin of language.
+  </p>
+  <p>
+<img src="framsticks.gif" class="right" style="width: 20em" />
+In the related field of artificial intelligence, virtual creatures are simulated
+in a similar hope of recreating the origin of intelligence and complex life forms.
+  </p>
+</body>
+</html>
