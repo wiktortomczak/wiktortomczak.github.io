@@ -1,0 +1,122 @@
+<html>
+<head>
+<style>
+body {
+  margin: 10px;
+  font-size: larger;
+  max-width: 40em;
+}
+</style>
+</head>
+<body>
+      
+<h1>Instructions</h1>
+
+
+<p>
+To generate balanced teams, with team-average player ratings as close as possible:
+
+<ol>
+<li>Add players to the game<br/>
+    (<button>Add players from CSV</button> button in the players panel left).
+<li>Fill teams automatically<br/>
+    (<button>Fill teams ...</button> buttons in the teams panel top right).
+
+<br/>
+and optionally
+
+<li>Balance teams automatically<br/>
+  (<button>Balance teams</button> button in the teams panel top right).
+</ol>
+</p>
+
+<p>
+Manual adjustments are possible at any step:
+
+<ul>
+<li>Seed / partially prefill teams with selected players.
+<li>Automatically fill (complete) partially filled teams.
+<li>Move players between teams / back to unassigned.
+<li>Add more players / remove players from the game.
+<li>Restart / change number of teams.
+</ul>
+
+All steps can be done any number of times in any order.
+</p>
+
+<p>
+In addition, it is possible to:
+
+<ul>
+<li>Mark as captain one player per team .
+<li>Pin players to the team, so that they are not moved when auto-balancing teams.
+</ul>
+</p>
+
+
+
+<h2>Actions (selected)</h2>
+
+<h3>Add players to the game</h3>
+
+In the players panel:
+
+<ol>
+<li>In the CSV input, enter any number of text lines in the format:
+
+<pre>
+player name, player rating
+</pre>
+
+eg. (cut & paste to test)
+
+<pre>
+Joe Smith,10
+John Doe,5
+</pre>
+
+<li>Click <button>Add players from CSV</button>.
+</ol>
+
+A new player will appear in the players panel for each correctly formatted line.<br/>
+Badly formatted lines will be left in the CSV input.
+
+<h3>Move players between teams / back to unassigned</h3>
+
+<ol>
+<li>In the source players or team panel, click (select) a player to be moved.
+<li>In the target players or team panel, click <button>Add</button>.<br/>
+    Once a player is selected, they will appear as candidate in the last row of every other panel.
+</ol>
+
+Alternatively
+
+<ol>
+<li>In the source players or team panel, hover over a player to be moved.
+<li>Click one of <button>1</button><button>2</button><button>3</button><button>4</button><button>5</button><button>6</button>.<br/>
+    The buttons will appear once the mouse hovers over the player.
+</ol>
+
+<h3>Mark player as captain / pin player / unpin player</h3>
+
+<ol>
+<li>In the player's team panel, hover over a player, then click <button>Captain</button> or <button>Pin</button>. The captain is automatically pinned.<br/>
+    The buttons will appear once the mouse hovers over the player.
+</ol>
+
+<h2>Fill / balance algorithms</h2>
+
+<h3>Fill teams randomly</h3>
+Unassigned players are chosen at random, one at a time, and added to the team
+with the lowest number of players (to one of such teams chosen at random if
+there is more than one).
+
+<h3>Fill teams strongest first</h3>
+Unassigned players are chosen in order of rating (highest rating first)
+and added to the team with the lowest number of players and the lowest average
+rating (first such team if there is more than one).
+
+<h3>Balance teams</h3>
+Pairs of players from different teams are chosen at random and swapped if
+it gives more balanced teams, as measured by balance score: team-average rating
+range. Pinned players are not swapped. Balancing runs for a limited number of swaps.
