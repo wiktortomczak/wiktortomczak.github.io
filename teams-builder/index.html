@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <title>Team builder</title>
+    <script type="importmap">
+{"imports": {
+  "vb/": "/teams-builder/__packages__/vb/",
+  "base/": "/teams-builder/__packages__/base/",
+  "react": "/teams-builder/umd.js?m=https://cdn.jsdelivr.net/npm/react@16.13.1/umd/react.production.min.js&de=window.React",
+  "react-dom": "/teams-builder/umd.js?m=https://cdn.jsdelivr.net/npm/react-dom@16.13.1/umd/react-dom.production.min.js&de=window.ReactDOM"
+}}
+    </script>
+    <script>
+const mainModuleUrl = 'vb/vb.mjs';
+    </script>
+    <script type="module">
+      import {createAppendElement, createElement} from 'base/dom.mjs';
+
+      (async function () {
+        try {
+          await import(mainModuleUrl);
+        } catch (e) {
+          createAppendElement('div', {style: {width: '40em'}}, ...[
+            createElement('h1', {}, 'Error loading ' + moduleUrl),
+            createElement('div', {style: {fontFamily: 'monospace'}}, e.message),
+            createElement('pre', {}, e.stack)
+          ]);
+        }
+      })();
+    </script>
+  <body>
+  </body>
+</html>
