@@ -70,7 +70,7 @@ export default class Arrays {
   }
 
   static bisectRightByKey(arr, elem, keyFunc) {
-    const compareFunc = _createCompareFuncFromKeyFunc(keyFunc);
+    const compareFunc = createCompareFuncFromKeyFunc(keyFunc);
     return this.bisectRight(arr, elem, compareFunc);
   }
 
@@ -80,7 +80,7 @@ export default class Arrays {
   }
 
   static binarySearchByKey(arr, elem, keyFunc) {
-    const compareFunc = _createCompareFuncFromKeyFunc(keyFunc);
+    const compareFunc = createCompareFuncFromKeyFunc(keyFunc);
     return this.binarySearch(arr, elem, compareFunc);
   }
 
@@ -122,7 +122,7 @@ export default class Arrays {
   }
 
   static insertSortedByKey(arr, e, keyFunc) {
-    const compareFunc = _createCompareFuncFromKeyFunc(keyFunc);
+    const compareFunc = createCompareFuncFromKeyFunc(keyFunc);
     return this.insertSorted(arr, e, compareFunc);
   }
 
@@ -226,7 +226,7 @@ export default class Arrays {
   }
 
   static sortByKey(arr, keyFunc, order='ascending') {
-    const compareFunc = _createCompareFuncFromKeyFunc(keyFunc, order);
+    const compareFunc = createCompareFuncFromKeyFunc(keyFunc, order);
     arr.sort(compareFunc);
   }
 
@@ -250,7 +250,7 @@ export function compareSecond(a, b, compareFunc=_defaultCompare) {
 }
 
 
-function _createCompareFuncFromKeyFunc(keyFunc, order='ascending') {
+export function createCompareFuncFromKeyFunc(keyFunc, order='ascending') {
   if (order == 'ascending') {
     return function compare(a, b) {
       const aKey = keyFunc(a);

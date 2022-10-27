@@ -2,7 +2,7 @@
 import React from 'react'; 
 import ReactDOM from 'react-dom'; 
 
-import Arrays from 'base/arrays.mjs';
+import Arrays, {createCompareFuncFromKeyFunc} from 'base/arrays.mjs';
 import assert from 'base/assert.mjs';
 import BackgroundTask from 'base/background-task.mjs';
 import Classes from 'base/classes.mjs';
@@ -550,7 +550,7 @@ class GenerateGamesTask extends AsyncStateComponent {
            }, fragment(
              cE('tr', {}, fragment(
                cE('td', {}, '#' + game.id),
-               cE('td', {className: 'numeric'}, game.score.toFixed(4))
+               cE('td', {className: 'numeric'}, game.teamAverageRatingVariance.toFixed(4))
              )),
              trtd({colSpan: 2}, button('Copy', e => {
                this._copyGame(game, i);
@@ -575,8 +575,7 @@ class GenerateGamesTask extends AsyncStateComponent {
     }
     if (keep) {
       game.id = this._nextGameId++;  // TODO
-      game.score = score;  // TODO
-      Arrays.insertSorted(this._games, game, _compareGameScore);
+      Arrays.insertSorted(this._games, game, this.constructor._compareGames);
       this._maxScore = this._maxScore !== undefined ?
         Math.max(this._maxScore, score) : score;
     }
@@ -600,10 +599,9 @@ class GenerateGamesTask extends AsyncStateComponent {
   }
 }
 
+GenerateGamesTask._compareGames =
+  createCompareFuncFromKeyFunc(game => game.teamAverageRatingVariance);
 
-function _compareGameScore(a, b) {
-  return a.score > b.score ? 1 : a.score < b.score ? -1 : 0;
-}
 
 
 class BackgroundTasks extends React.Component {
