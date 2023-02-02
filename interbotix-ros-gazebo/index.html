@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Interbotix vx300s + ROS + Gazebo</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="md-html-github.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Interbotix vx300s + ROS + Gazebo</h1>
+</header>
+<p>Instrukcja, jak ‘uruchomić’ wirtualne ramię Interbotix vx300s w Linuxie, stack</p>
+<ol type="1">
+<li>ramię Interbotix, model oraz sterownik - moduł ROS</li>
+<li>ROS 1 noetic</li>
+<li>Gazebo</li>
+</ol>
+<p>oraz jak</p>
+<ul>
+<li>manipulować ramieniem w Pythonie</li>
+<li>umieścić dodatkowe modele (obiekty) w świecie (w Gazebo)</li>
+</ul>
+<h2 id="polecenia-shell">Polecenia shell</h2>
+<p>Pobrać <a href="interbotix_ros_gazebo.zip">interbotix_ros_gazebo.zip</a>.</p>
+<pre><code>$ unzip interbotix_ros_gazebo.zip
+$ cd interbotix_ros_gazebo</code></pre>
+<h3 id="środowisko-vx300s-ros-gazebo-serwer">Środowisko vx300s + ROS + gazebo / serwer</h3>
+<h4 id="instalacja">Instalacja</h4>
+<pre><code>$ docker build -f interbotix_ros_gazebo.Dockerfile -t interbotix_ros_gazebo .</code></pre>
+<h4 id="uruchomienie">Uruchomienie</h4>
+<pre><code># X11 disable access control
+$ xhost +
+
+# -p -- komunikacja z ROS master; -v -e -- X11 forwarding
+$ docker run -ti -p 11311:11311 -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY interbotix_ros_gazebo
+
+# opcjonalnie, sekwencja ctrl-p ctrl-q odłącza (detach) terminal</code></pre>
+<p>Powinno pojawić się GUI Gazebo - okno X11 z wizualizacją ramienia vx300s:</p>
+<p><img src="vx300s.0.png" /></p>
+<h3 id="interakcja-ze-środowiskiem-powyżej-klient">Interakcja ze środowiskiem powyżej / klient</h3>
+<h4 id="instalacja-1">Instalacja</h4>
+<pre><code>$ apt install ros-noetic-rospy</code></pre>
+<h4 id="przykładowe-uruchomienie">Przykładowe uruchomienie</h4>
+<pre><code># Adres ROS master - konfiguracja dla rospy i poleceń shellowych: rosrun, rostopic, ...
+# (zmienna poniżej jest już prawdopodobnie ustawiona po instalacji ros-noetic-rospy)
+$ export ROS_MASTER_URI=http://localhost:11311
+
+# Dodanie cube.urdf do Gazebo via ROS
+# https://classic.gazebosim.org/tutorials?tut=ros_roslaunch
+# &quot;ROS Service Call&quot; Robot Spawn Method
+$ rosrun gazebo_ros spawn_model -file ./cube.urdf -urdf -x 0 -y -0.4 -z 1 -model cube1
+
+# Dodanie kolejnych czterech kopii cube.urdf - stos sześcianów
+$ rosrun gazebo_ros spawn_model -file ./cube.urdf -urdf -x 0 -y -0.4 -z 1 -model cube2
+$ rosrun gazebo_ros spawn_model -file ./cube.urdf -urdf -x 0 -y -0.4 -z 1 -model cube3
+$ rosrun gazebo_ros spawn_model -file ./cube.urdf -urdf -x 0 -y -0.4 -z 1 -model cube4
+$ rosrun gazebo_ros spawn_model -file ./cube.urdf -urdf -x 0 -y -0.4 -z 1 -model cube5
+
+# Przykładowa manipulacja ramieniem vx300s z Pythona
+$ python3
+&gt;&gt;&gt; import rospy
+&gt;&gt;&gt; rospy.init_node(&#39;test&#39;)
+&gt;&gt;&gt; from std_msgs.msg import Float64
+&gt;&gt;&gt; waist_controller = rospy.Publisher(&#39;/vx300s/waist_controller/command&#39;, Float64)
+&gt;&gt;&gt; waist_controller.publish(-2.0)</code></pre>
+<p><img src="vx300s.1.png" /></p>
+<h4 id="inne-przykłady-manipulacji-robotem">Inne przykłady manipulacji robotem</h4>
+<ul>
+<li><a href="https://github.com/wiktortomczak/wiktortomczak.github.io/tree/master/interbotix-ros-gazebo/vx300s_demo.py">vx300s_demo.py</a></li>
+<li><a href="http://wiki.ros.org/rospy/Overview/Publishers%20and%20Subscribers" class="uri">http://wiki.ros.org/rospy/Overview/Publishers%20and%20Subscribers</a></li>
+<li><a href="http://wiki.ros.org/rospy_tutorials/Tutorials/WritingPublisherSubscriber" class="uri">http://wiki.ros.org/rospy_tutorials/Tutorials/WritingPublisherSubscriber</a></li>
+</ul>
+<h2 id="opis">Opis</h2>
+<p>Przedstawione rozwiązanie, jak uruchomić i manipulować ramieniem, tj. jak zintegrować cztery składowe software’owe:</p>
+<ol type="1">
+<li>model i sterownik Interbotix</li>
+<li>middleware ROS</li>
+<li>symulator Gazebo</li>
+<li>kod manipulujący ramieniem</li>
+</ol>
+<p>polega na:</p>
+<ul>
+<li>zintegrowaniu składowych 1-3 w ROS i zebraniu ich w kontener dockerowy</li>
+<li>manipulacji ramieniem / komunikacji ze środowiskiem w kontenerze z zewnątrz (z hosta ~ stacji deweloperskiej) poprzez TCP, za pośrednictwem
+<ul>
+<li>biblioteki klienckiej <a href="http://wiki.ros.org/rospy">rospy</a></li>
+<li>narzędzi shellowych ROSa: <code>rosrun</code>, <code>rostopic</code>, …</li>
+</ul></li>
+<li>dodatkowo, komunikacji zwrotnej (wyświetleniu) GUI Gazebo z kontenera w X11 hosta</li>
+</ul>
+<p>Do interakcji ze wszystkimi składowymi wystarczy komunikacja z ROS master (= proces / węzeł ROS). Sterowniki Interbotix i symulator Gazebo są zintegrowane z ROSem jako specjalne węzły ROS i można się do nich odwoływać z użyciem mechanizmów komunikacji ROS, tj. <a href="http://wiki.ros.org/Topics">ROS topics</a>. ROS master pośredniczy w tej komunikacji.</p>
+<p>Integracja ROSa z Gazebo jest standardowa, w oparciu o pakiet ROSa <a href="http://wiki.ros.org/gazebo_ros">gazebo_ros</a> opakowujący Gazebo, opisany w tutorialach Gazebo <a href="https://classic.gazebosim.org/tutorials?cat=connect_ros">Connect to ROS</a>.</p>
+<p>Integracja ROSa z ramieniem Interbotix wykorzystuje pakiety ROSa <a href="https://www.trossenrobotics.com/docs/interbotix_xsarms/ros_packages/index.html">interbotix_xsarm_…</a> dostarczone z Interbotix. Te pakiety definiują różne węzły ROS sterujące ramieniem. Użyty pakiet <a href="https://www.trossenrobotics.com/docs/interbotix_xsarms/ros_packages/gazebo_simulation_configuration.html">interbotix_xsarm_gazebo</a> dodatkowo integruje Gazebo, z wykorzystaniem w/w <a href="http://wiki.ros.org/gazebo_ros">gazebo_ros</a>.</p>
+<p><a href="interbotix_ros_gazebo.Dockerfile">interbotix_ros_gazebo.Dockerfile</a> to:</p>
+<ul>
+<li>dockerowe opakowanie skryptu <a href="https://github.com/Interbotix/interbotix_ros_manipulators/blob/main/interbotix_ros_xsarms/install/amd64/xsarm_amd64_install.sh">xsarm_amd64_install.sh</a> z Interbotix, który automatycznie instaluje całe w/w oprogramowanie
+<ul>
+<li>docker image <code>interbotix_ros_gazebo</code> to gotowa instalacja całego w/w oprogramowania</li>
+</ul></li>
+<li>uruchomienie ROSa i węzłów ROSa z <a href="https://www.trossenrobotics.com/docs/interbotix_xsarms/ros_packages/gazebo_simulation_configuration.html">interbotix_xsarm_gazebo</a>, tj. sterowników Interbotix i symulatora Gazebo
+<ul>
+<li>kontener (uruchomiony image) <code>interbotix_ros_gazebo</code> to działające środowisko Interbotix vx300s + ROS + Gazebo</li>
+</ul></li>
+</ul>
+<p>Zalety wykorzystnia dockera to (standardowo):</p>
+<ul>
+<li>opakowanie w/w złożonego środowiska w jednym kawałku, poprawnie działającym</li>
+<li>reprodukowalność instalacji i uruchomienia</li>
+<li>łatwość instalacji, uruchomienia, zatrzymania, usunięcia</li>
+<li>izolacja instalacji (~ 2000 pakietów .deb!) i uruchomienia od stanu hosta</li>
+<li>możliwość równoległego uruchomienia wielu instancji (środowisk)</li>
+</ul>
+<h2 id="uwagi">Uwagi</h2>
+<ul>
+<li><p>Opcjonalne argumenty do <code>docker run interbotix_ros_gazebo</code>:</p>
+<p>takie jak w <a href="https://github.com/Interbotix/interbotix_ros_manipulators/blob/main/interbotix_ros_xsarms/interbotix_xsarm_gazebo/launch/xsarm_gazebo.launch">xsarm_gazebo.launch</a>:</p>
+<p>np. <code>paused:=true</code> <code>world_name:=&lt;plik .world&gt;</code></p>
+<pre><code>$ docker run -ti -p 11311:11311 -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY  \
+    interbotix_ros_gazebo paused:=true world_name:=&lt;plik .world&gt;</code></pre></li>
+<li>Inne modele urdf/sdf można umieścić w Gazebo już przy uruchomieniu środowiska, statycznie:
+<ul>
+<li>definiując je w pliku <code>.world</code></li>
+<li>przekazując ten plik przez parametr <code>world_name:=</code> do polecenia <code>docker run interbotix_ros_gazebo</code>, jw.</li>
+</ul></li>
+<li><p>Polecenie <code>rostopic pub</code> pozwala na manipulację robotem z shella, np.:</p>
+<pre><code>rostopic pub -1 /vx300s/waist_controller/command std_msgs/Float64 &quot;data: 0.5&quot;</code></pre></li>
+<li><p>Polecenie <code>rostopic list</code> pokazuje dostępne topics (= kanały pub/sub, ~ metody RPC), np. <code>/vx300s/waist_controller/command</code></p></li>
+<li><p>Docker image <code>interbotix_ros_gazebo</code> buduje (ściąga) się 1-2h i zajmuje ~4.5GB</p></li>
+</ul>
+<h2 id="pliki">Pliki</h2>
+<ul>
+<li><a href="https://github.com/wiktortomczak/wiktortomczak.github.io/tree/master/interbotix-ros-gazebo/interbotix_ros_gazebo.Dockerfile">interbotix_ros_gazebo.Dockerfile</a></li>
+<li><a href="https://github.com/wiktortomczak/wiktortomczak.github.io/tree/master/interbotix-ros-gazebo/vx300s_demo.py">vx300s_demo.py</a></li>
+<li><a href="https://github.com/wiktortomczak/wiktortomczak.github.io/tree/master/interbotix-ros-gazebo/cube.urdf">cube.urdf</a></li>
+</ul>
+<h2 id="wymagania">Wymagania</h2>
+<ul>
+<li>Linux, X11</li>
+<li>docker</li>
+<li>python</li>
+</ul>
+<h2 id="to-do">To Do</h2>
+<ul>
+<li>spawn modelu w Gazebo bezpośrednio z Pythona, nie przez <code>rosrun</code> (patrz źrodła spawn_model)</li>
+<li><code>rospy</code> (biblioteka kliencka) bez ~1GB zbędnych zależności na całym środowisku ROS (np. pobrać źródła ręcznie)</li>
+<li>instalacja ROS i Gazebo w standardowy sposób (np. z oficjalnych pakietów), następnie doinstalowanie modułów ROS z Interbotix</li>
+</ul>
+<h2 id="źródła">Źródła</h2>
+<ul>
+<li><a href="http://wiki.ros.org/rospy" class="uri">http://wiki.ros.org/rospy</a></li>
+<li><a href="http://wiki.ros.org/rospy/Overview/Publishers%20and%20Subscribers" class="uri">http://wiki.ros.org/rospy/Overview/Publishers%20and%20Subscribers</a></li>
+<li><a href="http://wiki.ros.org/rospy_tutorials/Tutorials/WritingPublisherSubscriber" class="uri">http://wiki.ros.org/rospy_tutorials/Tutorials/WritingPublisherSubscriber</a></li>
+<li><a href="http://wiki.ros.org/Topics" class="uri">http://wiki.ros.org/Topics</a></li>
+<li><a href="http://wiki.ros.org/gazebo_ros" class="uri">http://wiki.ros.org/gazebo_ros</a></li>
+<li><a href="https://classic.gazebosim.org/tutorials?cat=connect_ros" class="uri">https://classic.gazebosim.org/tutorials?cat=connect_ros</a></li>
+<li><a href="https://classic.gazebosim.org/tutorials?tut=ros_roslaunch" class="uri">https://classic.gazebosim.org/tutorials?tut=ros_roslaunch</a></li>
+<li><a href="https://www.trossenrobotics.com/docs/interbotix_xsarms/ros_packages/index.html" class="uri">https://www.trossenrobotics.com/docs/interbotix_xsarms/ros_packages/index.html</a></li>
+<li><a href="https://www.trossenrobotics.com/docs/interbotix_xsarms/ros_packages/gazebo_simulation_configuration.html" class="uri">https://www.trossenrobotics.com/docs/interbotix_xsarms/ros_packages/gazebo_simulation_configuration.html</a></li>
+<li><a href="https://github.com/Interbotix/interbotix_ros_manipulators/blob/main/interbotix_ros_xsarms/install/amd64/xsarm_amd64_install.sh" class="uri">https://github.com/Interbotix/interbotix_ros_manipulators/blob/main/interbotix_ros_xsarms/install/amd64/xsarm_amd64_install.sh</a></li>
+<li><a href="https://github.com/Interbotix/interbotix_ros_manipulators/blob/main/interbotix_ros_xsarms/interbotix_xsarm_gazebo/launch/xsarm_gazebo.launch" class="uri">https://github.com/Interbotix/interbotix_ros_manipulators/blob/main/interbotix_ros_xsarms/interbotix_xsarm_gazebo/launch/xsarm_gazebo.launch</a></li>
+<li><a href="https://www.youtube.com/watch?v=k3zkgN7TYTE" class="uri">https://www.youtube.com/watch?v=k3zkgN7TYTE</a></li>
+</ul>
+</body>
+</html>
